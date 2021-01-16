@@ -1,0 +1,10 @@
+matplotlib==3.3.3
+numpy==1.19.5
+scipy==1.6.0
+svgutils==0.3.1
+manubot==0.5.0
+panflute==1.12
+pandoc-fignos==2.4.0
+pandoc-eqnos==2.5.0
+pandoc-tablenos==2.3.0
+
