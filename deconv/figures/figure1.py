@@ -17,14 +17,14 @@ def makeFigure():
     glycans_3b = infer_x(A_antiD, mean_3b)
 
     ax[0].bar(glycan_list, glycans_3a)
-    ax[0].set_title('ADCC (Fig. 3A)')
-    ax[0].set_xlabel('Glycans')
-    #ax[0].set_xticks(rotation=90)
+    ax[0].set_title("ADCC (Fig. 3A)")
+    ax[0].set_xlabel("Glycans")
+    ax[0].set_xticklabels(ax[0].get_xticks(), rotation=90)
 
     ax[1].bar(glycan_list, glycans_3b)
-    ax[1].set_title('ADCC (Fig. 3B)')
-    ax[1].set_xlabel('Glycans')
-    #ax[1].set_xticks(rotation=90)
+    ax[1].set_title("ADCC (Fig. 3B)")
+    ax[1].set_xlabel("Glycans")
+    ax[1].set_xticklabels(ax[1].get_xticks(), rotation=90)
 
     # Add subplot labels
     subplotLabel(ax)
