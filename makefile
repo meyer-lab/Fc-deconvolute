@@ -1,4 +1,4 @@
-flist = 
+flist = 1
 
 all: $(patsubst %, output/figure%.svg, $(flist))
 
@@ -9,7 +9,7 @@ venv/bin/activate: requirements.txt
 	. venv/bin/activate && pip install --prefer-binary -Uqr requirements.txt
 	touch venv/bin/activate
 
-output/figure%.svg: venv genFigure.py
+output/figure%.svg: venv genFigure.py deconv/figures/figure%.py
 	@mkdir -p output
 	. venv/bin/activate && ./genFigure.py $*
 
