@@ -1,5 +1,5 @@
-from .figures.common import subplotLabel, getSetup
-from .imports import load_tables, load_figures, infer_x
+from .common import subplotLabel, getSetup
+from ..imports import load_tables, load_figures, infer_x
 import numpy as np 
 import pandas as pd
 
