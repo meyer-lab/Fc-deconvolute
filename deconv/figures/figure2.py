@@ -1,7 +1,7 @@
 from .common import subplotLabel, getSetup
 from ..imports import load_tables, load_figures, infer_x
 
-def fitAssess():
+def makeFigure():
     """Check the fit using infered x values"""
     ax, f = getSetup((6, 3), (1, 2))
 
