@@ -14,7 +14,7 @@ def makeFigure():
     glycans_3a = infer_x(A_antiD, mean_3a)
     glycans_3b = infer_x(A_antiD, mean_3b)
 
-    infer_adcc_3a = glycans_3a.dot(A_antiD)
+    infer_adcc_3a = A_antiD @ glycans_3a
     infer_adcc_3b = glycans_3b.dot(A_antiD)
 
     ax[0].scatter(glycan_list, infer_adcc_3a)
