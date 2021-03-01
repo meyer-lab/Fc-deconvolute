@@ -1,4 +1,4 @@
-flist = 1
+flist = 1 4
 
 all: $(patsubst %, output/figure%.svg, $(flist))
 
