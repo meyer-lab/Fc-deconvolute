@@ -19,8 +19,8 @@ def makeFigure():
     original_3a = A_antiD @ glycans_3a
     original_3b = A_antiD @ glycans_3b
 
-    glycans_3a[18] = 0.3
-    glycans_3b[18] = 0.3
+    glycans_3a[18] = glycans_3a[12:23].sum() / 12
+    glycans_3b[18] = glycans_3b[12:23].sum() / 12
 
     g1s_3a = A_antiD @ glycans_3a
     g1s_3b = A_antiD @ glycans_3b
