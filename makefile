@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-flist = 1 2
-=======
 flist = 1 4
->>>>>>> de419daa9b785d137c75da05e58073d15024f80e
 
 all: $(patsubst %, output/figure%.svg, $(flist))
 
