@@ -1,6 +1,6 @@
 import numpy as np
-from common import subplotLabel, getSetup
-from .imports import load_tables, load_figures, infer_x
+from .common import subplotLabel, getSetup
+from ..imports import load_tables, load_figures, infer_x
 
 def makeFigure():
     """Check the fit using infered x values"""

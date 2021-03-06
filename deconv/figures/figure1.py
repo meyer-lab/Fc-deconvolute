@@ -7,7 +7,7 @@ def makeFigure():
     # Get list of axis objects
     ax, f = getSetup((6, 3), (1, 2))
 
-    A_antiD, _, glycan_list = load_tables()
+    A_antiD, _, glycan_list, _ = load_tables()
     adcc_3a, adcc_3b = load_figures()
 
     mean_3a = (adcc_3a.groupby(level=0).sum()) / 4
