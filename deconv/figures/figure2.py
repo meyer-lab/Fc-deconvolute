@@ -1,5 +1,6 @@
-from .common import subplotLabel, getSetup
-from ..imports import load_tables, load_figures, infer_x
+import numpy as np
+from common import subplotLabel, getSetup
+from .imports import load_tables, load_figures, infer_x
 
 def makeFigure():
     """Check the fit using infered x values"""
@@ -16,6 +17,9 @@ def makeFigure():
 
     infer_adcc_3a = A_antiD @ glycans_3a
     infer_adcc_3b = A_antiD @ glycans_3b
+
+    infer_adcc_3a = infer_adcc_3a.transpose()
+    infer_adcc_3b = infer_adcc_3b.transpose()
 
     ax[0].scatter(glycan_list, infer_adcc_3a)
     ax[0].set_title("ADCC (Fig. 3A)")
