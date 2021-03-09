@@ -10,21 +10,18 @@ authors:
     name: Amanda Tsao
     initials: AT
     orcid: XXXX-XXXX-XXXX-XXXX
-    email: john.doe@something.com
     affiliations:
       - Department of Bioinformatics, University of California, Los Angeles
   - github: sumedha-k
     name: Sumedha Kanthamneni
     initials: SK
     orcid: XXXX-XXXX-XXXX-XXXX
-    email: john.doe@something.com
     affiliations:
       - Department of Bioengineering, University of California, Los Angeles
   - github: evahunter
     name: Eva Hunter
     initials: EH
     orcid: XXXX-XXXX-XXXX-XXXX
-    email: john.doe@something.com
     affiliations:
       - Department of Bioengineering, University of California, Los Angeles
   -
@@ -33,7 +30,7 @@ authors:
     initials: ASM
     twitter: aarmey
     orcid: 0000-0003-4513-1840
-    email: a@asmlab.org
+    email: ameyer@asmlab.org
     affiliations:
       - Department of Bioengineering, University of California, Los Angeles
       - Department of Bioinformatics, University of California, Los Angeles
