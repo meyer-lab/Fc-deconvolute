@@ -1,5 +1,7 @@
+import numpy as np
 import pandas as pd
 from scipy.optimize import nnls
+from scipy.optimize import least_squares
 
 
 def load_tables():
@@ -25,3 +27,20 @@ def load_figures():
 
 def infer_x(A, adcc):
     return nnls(A, adcc, maxiter=None)[0]
+
+
+def infer_x_fixed(X, y, setGroups):
+    assert setGroups.dtype == np.int
+    assert setGroups.ndim == 1
+    assert y.ndim == 1
+    assert y.size == X.shape[0]
+    assert X.shape[1] == setGroups.size
+    numGroups = len(np.unique(setGroups))
+
+    def cost(pIn):
+        return X @ pIn[setGroups] - y
+
+    res = least_squares(cost, np.ones(numGroups), ftol=1e-9, bounds=(0, np.inf))
+    assert res.success
+
+    return res.x[setGroups]
