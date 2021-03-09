@@ -27,7 +27,7 @@ def makeFigure():
     ax[0].bar(ind + width/2, mean_3a, width, label = 'Original ADCC')
     ax[0].set_title("Original and Inferred ADCC (Fig. 3A)")
     ax[0].set_xlabel("Mixtures")
-    ax[0].set_xticklabels(mixtures, Rotation=90)
+    ax[0].set_xticklabels(mixtures, rotation=90)
     ax[0].set_xticks(ind)
     ax[0].legend()
 
@@ -35,7 +35,7 @@ def makeFigure():
     ax[1].bar(ind + width/2, mean_3b, width, label = 'Original ADCC')
     ax[1].set_title("Original and Inferred ADCC (Fig. 3B)")
     ax[1].set_xlabel("Mixtures")
-    ax[1].set_xticklabels(mixtures, Rotation=90)
+    ax[1].set_xticklabels(mixtures, rotation=90)
     ax[1].set_xticks(ind)
     ax[1].legend()
 

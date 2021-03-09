@@ -93,20 +93,17 @@ def infer_x_EM(X, y, nGroups):
 
 
 def load_bindingData():
-    fig_2A = pd.read_csv("./deconv/data/Fig2A-FcgRI.csv")
-    fig_2B = pd.read_csv("./deconv/data/Fig2B-FcgRIIa-131H.csv")
-    fig_2C = pd.read_csv("./deconv/data/Fig2C-FcgRIIa-131R.csv")
-    fig_2D = pd.read_csv("./deconv/data/Fig2D-FcgRIIb.csv")
-    fig_2E = pd.read_csv("./deconv/data/Fig2E-FcgRIIIa-158F.csv")
-    fig_2F = pd.read_csv("./deconv/data/Fig2F-FcgRIIIa-158V.csv")
-    fig_2G = pd.read_csv("./deconv/data/Fig2G-FcgRIIIb-NA1.csv")
-    fig_2H = pd.read_csv("./deconv/data/Fig2H-FcgRIIIb-NA2.csv")
-    fig2A = fig_2A.iloc[:, :].values
-    fig2B = fig_2B.iloc[:, :].values
-    fig2C = fig_2C.iloc[:, :].values
-    fig2D = fig_2D.iloc[:, :].values
-    fig2E = fig_2E.iloc[:, :].values
-    fig2F = fig_2F.iloc[:, :].values
-    fig2G = fig_2G.iloc[:, :].values
-    fig2H = fig_2H.iloc[:, :].values
-    return(fig2A, fig2B, fig2C, fig2D, fig2E, fig2F, fig2G, fig2H)
+    figList = []
+    figList.append(pd.read_csv("./deconv/data/Fig2A-FcgRI.csv"))
+    figList.append(pd.read_csv("./deconv/data/Fig2B-FcgRIIa-131H.csv"))
+    figList.append(pd.read_csv("./deconv/data/Fig2C-FcgRIIa-131R.csv"))
+    figList.append(pd.read_csv("./deconv/data/Fig2D-FcgRIIb.csv"))
+    figList.append(pd.read_csv("./deconv/data/Fig2E-FcgRIIIa-158F.csv"))
+    figList.append(pd.read_csv("./deconv/data/Fig2F-FcgRIIIa-158V.csv"))
+    figList.append(pd.read_csv("./deconv/data/Fig2G-FcgRIIIb-NA1.csv"))
+    figList.append(pd.read_csv("./deconv/data/Fig2H-FcgRIIIb-NA2.csv"))
+
+    for ii, ff in enumerate(figList):
+        figList[ii] = ff.iloc[:, :].values
+
+    return figList
