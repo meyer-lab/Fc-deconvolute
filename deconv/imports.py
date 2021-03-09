@@ -4,6 +4,18 @@ from scipy.optimize import nnls
 from scipy.optimize import least_squares
 
 
+def ADCC_groups():
+    setGroup = np.zeros(24, dtype=np.int)
+    setGroup[[13, 18]] = 1
+    setGroup[[14, 19]] = 2
+    setGroup[[15, 20]] = 3
+    setGroup[[16, 21]] = 4
+    setGroup[[17, 22]] = 5
+    setGroup[23] = 6
+    setGroup[12] = 7
+    return setGroup
+
+
 def load_tables():
     antiD = pd.read_csv("./deconv/data/anti-D.csv")
     antiT = pd.read_csv("./deconv/data/anti-TNP.csv")
