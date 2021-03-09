@@ -1,6 +1,6 @@
 import numpy as np
 from .common import subplotLabel, getSetup
-from ..imports import load_tables, load_figures, infer_x, infer_x_fixed
+from ..imports import load_tables, load_figures, infer_x, infer_x_fixed, infer_x_EM
 
 
 def makeFigure():
@@ -19,9 +19,9 @@ def makeFigure():
     setGroup[[14, 19]] = 2
     setGroup[[15, 20]] = 3
     setGroup[[16, 21]] = 4
-    setGroup[[17, 22]] = 4
-    setGroup[23] = 5
-    setGroup[12] = 6
+    setGroup[[17, 22]] = 5
+    setGroup[23] = 6
+    setGroup[12] = 7
 
     glycans_3a = infer_x_fixed(A_antiD, mean_3a, setGroup)
     glycans_3b = infer_x_fixed(A_antiD, mean_3b, setGroup)
