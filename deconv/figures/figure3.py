@@ -31,7 +31,7 @@ def makeFigure():
     ax[0].bar(ind + width/2, original_3a, width, label = 'Double Anti-D')
     ax[0].set_title("Anti-D and Anti-TNP (Fig. 3A)")
     ax[0].set_xlabel("Glycans")
-    ax[0].set_xticklabels(glycan_list, Rotation=90)
+    ax[0].set_xticklabels(glycan_list, rotation=90)
     ax[0].set_xticks(ind)
     ax[0].legend()
 
@@ -39,7 +39,7 @@ def makeFigure():
     ax[1].bar(ind + width/2, original_3b, width, label = 'Double Anti-D')
     ax[1].set_title("Anti-D and Anti-TNP (Fig. 3B)")
     ax[1].set_xlabel("Glycans")
-    ax[1].set_xticklabels(glycan_list, Rotation=90)
+    ax[1].set_xticklabels(glycan_list, rotation=90)
     ax[1].set_xticks(ind)
     ax[1].legend()
 

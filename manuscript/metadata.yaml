@@ -6,22 +6,30 @@ keywords:
   - manubot
 lang: en-US
 authors:
-  - github: johndoe
-    name: John Doe
-    initials: JD
-    orcid: XXXX-XXXX-XXXX-XXXX
-    twitter: johndoe
-    email: john.doe@something.com
+  - github: ajtsao1
+    name: Amanda Tsao
+    initials: AT
+    orcid: 0000-0002-4912-830X
     affiliations:
-      - Department of Something, University of Whatever
-    funders:
-      - Grant XXXXXXXX
+      - Department of Bioinformatics, University of California, Los Angeles
+  - github: sumedha-k
+    name: Sumedha Kanthamneni
+    initials: SK
+    orcid: XXXX-XXXX-XXXX-XXXX
+    affiliations:
+      - Department of Bioengineering, University of California, Los Angeles
+  - github: evahunter
+    name: Eva Hunter
+    initials: EH
+    orcid: XXXX-XXXX-XXXX-XXXX
+    affiliations:
+      - Department of Bioengineering, University of California, Los Angeles
   -
     github: aarmey
     name: Aaron S. Meyer
     initials: ASM
-    orcid: 0000-0003-4513-1840
     twitter: aarmey
+    orcid: 0000-0003-4513-1840
     email: ameyer@asmlab.org
     affiliations:
       - Department of Bioengineering, University of California, Los Angeles

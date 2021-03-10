@@ -1,5 +1,6 @@
+import numpy as np
 from .common import subplotLabel, getSetup
-from ..imports import load_tables, load_figures, infer_x
+from ..imports import load_tables, load_figures, infer_x_fixed, ADCC_groups
 
 
 def makeFigure():
@@ -13,8 +14,10 @@ def makeFigure():
     mean_3a = (adcc_3a.groupby(level=0).sum()) / 4
     mean_3b = (adcc_3b.groupby(level=0).sum()) / 4
 
-    glycans_3a = infer_x(A_antiD, mean_3a)
-    glycans_3b = infer_x(A_antiD, mean_3b)
+    setGroup = ADCC_groups()
+
+    glycans_3a = infer_x_fixed(A_antiD, mean_3a, setGroup)
+    glycans_3b = infer_x_fixed(A_antiD, mean_3b, setGroup)
 
     ax[0].bar(glycan_list, glycans_3a)
     ax[0].set_title("ADCC (Fig. 3A)")
