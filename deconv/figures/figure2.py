@@ -6,16 +6,21 @@ def makeFigure():
     """Check the fit using infered x values"""
     ax, f = getSetup((6, 3), (1, 2))
 
-    A_antiD, _, _, mixtures = load_tables()
+    A_antiD, A_antiTNP, _, mixtures = load_tables()
     adcc_3a, adcc_3b = load_figures()
 
     mean_3a = (adcc_3a.groupby(level=0).sum()) / 4
     mean_3b = (adcc_3b.groupby(level=0).sum()) / 4
 
+    double_3a = np.concatenate((mean_3a, mean_3a), axis=0)
+    double_3b = np.concatenate((mean_3b, mean_3b), axis=0)
+
+    A = np.concatenate((A_antiD, A_antiTNP), axis=0)
+
     setGroup = ADCC_groups()
 
-    glycans_3a = infer_x_fixed(A_antiD, mean_3a, setGroup)
-    glycans_3b = infer_x_fixed(A_antiD, mean_3b, setGroup)
+    glycans_3a = infer_x_fixed(A, double_3a, setGroup)
+    glycans_3b = infer_x_fixed(A, double_3b, setGroup)
 
     infer_adcc_3a = A_antiD @ glycans_3a
     infer_adcc_3b = A_antiD @ glycans_3b
