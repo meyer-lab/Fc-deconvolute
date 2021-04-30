@@ -1,0 +1,122 @@
+{
+  "pandoc": {
+    "title": "Glycan deconvolution reveals the activity of specific forms",
+    "keywords": [
+      "markdown",
+      "publishing",
+      "manubot"
+    ],
+    "lang": "en-US",
+    "date-meta": "2021-04-30",
+    "author-meta": [
+      "Amanda Tsao",
+      "Sumedha Kanthamneni",
+      "Eva Hunter",
+      "Aaron S. Meyer"
+    ],
+    "header-includes": "<!--\nManubot generated metadata rendered from header-includes-template.html.\nSuggest improvements at https://github.com/manubot/manubot/blob/master/manubot/process/header-includes-template.html\n-->\n<meta name=\"dc.format\" content=\"text/html\" />\n<meta name=\"dc.title\" content=\"Glycan deconvolution reveals the activity of specific forms\" />\n<meta name=\"citation_title\" content=\"Glycan deconvolution reveals the activity of specific forms\" />\n<meta property=\"og:title\" content=\"Glycan deconvolution reveals the activity of specific forms\" />\n<meta property=\"twitter:title\" content=\"Glycan deconvolution reveals the activity of specific forms\" />\n<meta name=\"dc.date\" content=\"2021-04-30\" />\n<meta name=\"citation_publication_date\" content=\"2021-04-30\" />\n<meta name=\"dc.language\" content=\"en-US\" />\n<meta name=\"citation_language\" content=\"en-US\" />\n<meta name=\"dc.relation.ispartof\" content=\"Manubot\" />\n<meta name=\"dc.publisher\" content=\"Manubot\" />\n<meta name=\"citation_journal_title\" content=\"Manubot\" />\n<meta name=\"citation_technical_report_institution\" content=\"Manubot\" />\n<meta name=\"citation_author\" content=\"Amanda Tsao\" />\n<meta name=\"citation_author_institution\" content=\"Department of Bioinformatics, University of California, Los Angeles\" />\n<meta name=\"citation_author_orcid\" content=\"0000-0002-4912-830X\" />\n<meta name=\"citation_author\" content=\"Sumedha Kanthamneni\" />\n<meta name=\"citation_author_institution\" content=\"Department of Bioengineering, University of California, Los Angeles\" />\n<meta name=\"citation_author_orcid\" content=\"XXXX-XXXX-XXXX-XXXX\" />\n<meta name=\"citation_author\" content=\"Eva Hunter\" />\n<meta name=\"citation_author_institution\" content=\"Department of Bioengineering, University of California, Los Angeles\" />\n<meta name=\"citation_author_orcid\" content=\"0000-0001-6087-1439\" />\n<meta name=\"citation_author\" content=\"Aaron S. Meyer\" />\n<meta name=\"citation_author_institution\" content=\"Department of Bioengineering, University of California, Los Angeles\" />\n<meta name=\"citation_author_institution\" content=\"Department of Bioinformatics, University of California, Los Angeles\" />\n<meta name=\"citation_author_institution\" content=\"Jonsson Comprehensive Cancer Center, University of California, Los Angeles\" />\n<meta name=\"citation_author_institution\" content=\"Eli and Edythe Broad Center of Regenerative Medicine and Stem Cell Research, University of California, Los Angeles\" />\n<meta name=\"citation_author_orcid\" content=\"0000-0003-4513-1840\" />\n<meta name=\"twitter:creator\" content=\"@aarmey\" />\n<link rel=\"canonical\" href=\"https://meyer-lab.github.io/Fc-deconvolute/\" />\n<meta property=\"og:url\" content=\"https://meyer-lab.github.io/Fc-deconvolute/\" />\n<meta property=\"twitter:url\" content=\"https://meyer-lab.github.io/Fc-deconvolute/\" />\n<meta name=\"citation_fulltext_html_url\" content=\"https://meyer-lab.github.io/Fc-deconvolute/\" />\n<meta name=\"citation_pdf_url\" content=\"https://meyer-lab.github.io/Fc-deconvolute/manuscript.pdf\" />\n<link rel=\"alternate\" type=\"application/pdf\" href=\"https://meyer-lab.github.io/Fc-deconvolute/manuscript.pdf\" />\n<link rel=\"alternate\" type=\"text/html\" href=\"https://meyer-lab.github.io/Fc-deconvolute/v/c381ec7ee1188157cda50a0b0e31be23c4072b2e/\" />\n<meta name=\"manubot_html_url_versioned\" content=\"https://meyer-lab.github.io/Fc-deconvolute/v/c381ec7ee1188157cda50a0b0e31be23c4072b2e/\" />\n<meta name=\"manubot_pdf_url_versioned\" content=\"https://meyer-lab.github.io/Fc-deconvolute/v/c381ec7ee1188157cda50a0b0e31be23c4072b2e/manuscript.pdf\" />\n<meta property=\"og:type\" content=\"article\" />\n<meta property=\"twitter:card\" content=\"summary_large_image\" />\n<link rel=\"icon\" type=\"image/png\" sizes=\"192x192\" href=\"https://manubot.org/favicon-192x192.png\" />\n<link rel=\"mask-icon\" href=\"https://manubot.org/safari-pinned-tab.svg\" color=\"#ad1457\" />\n<meta name=\"theme-color\" content=\"#ad1457\" />\n<!-- end Manubot generated metadata -->",
+    "bibliography": [],
+    "manubot-output-bibliography": "output/references.json",
+    "manubot-output-citekeys": "output/citations.tsv",
+    "manubot-requests-cache-path": "cache/requests-cache",
+    "manubot-clear-requests-cache": false
+  },
+  "manubot": {
+    "date": "April 30, 2021",
+    "authors": [
+      {
+        "github": "ajtsao1",
+        "name": "Amanda Tsao",
+        "initials": "AT",
+        "orcid": "0000-0002-4912-830X",
+        "affiliations": [
+          "Department of Bioinformatics, University of California, Los Angeles"
+        ],
+        "affiliation_numbers": [
+          1
+        ]
+      },
+      {
+        "github": "sumedha-k",
+        "name": "Sumedha Kanthamneni",
+        "initials": "SK",
+        "orcid": "XXXX-XXXX-XXXX-XXXX",
+        "affiliations": [
+          "Department of Bioengineering, University of California, Los Angeles"
+        ],
+        "affiliation_numbers": [
+          2
+        ]
+      },
+      {
+        "github": "evahunter",
+        "name": "Eva Hunter",
+        "initials": "EH",
+        "orcid": "0000-0001-6087-1439",
+        "affiliations": [
+          "Department of Bioengineering, University of California, Los Angeles"
+        ],
+        "affiliation_numbers": [
+          2
+        ]
+      },
+      {
+        "github": "aarmey",
+        "name": "Aaron S. Meyer",
+        "initials": "ASM",
+        "twitter": "aarmey",
+        "orcid": "0000-0003-4513-1840",
+        "email": "ameyer@asmlab.org",
+        "affiliations": [
+          "Department of Bioengineering, University of California, Los Angeles",
+          "Department of Bioinformatics, University of California, Los Angeles",
+          "Jonsson Comprehensive Cancer Center, University of California, Los Angeles",
+          "Eli and Edythe Broad Center of Regenerative Medicine and Stem Cell Research, University of California, Los Angeles"
+        ],
+        "affiliation_numbers": [
+          1,
+          2,
+          3,
+          4
+        ]
+      }
+    ],
+    "affiliations": [
+      {
+        "affiliation": "Department of Bioinformatics, University of California, Los Angeles",
+        "affiliation_number": 1
+      },
+      {
+        "affiliation": "Department of Bioengineering, University of California, Los Angeles",
+        "affiliation_number": 2
+      },
+      {
+        "affiliation": "Jonsson Comprehensive Cancer Center, University of California, Los Angeles",
+        "affiliation_number": 3
+      },
+      {
+        "affiliation": "Eli and Edythe Broad Center of Regenerative Medicine and Stem Cell Research, University of California, Los Angeles",
+        "affiliation_number": 4
+      }
+    ],
+    "ci_source": {
+      "provider": "github",
+      "repo_slug": "meyer-lab/Fc-deconvolute",
+      "repo_owner": "meyer-lab",
+      "repo_name": "Fc-deconvolute",
+      "commit": "c381ec7ee1188157cda50a0b0e31be23c4072b2e",
+      "triggering_commit": "c381ec7ee1188157cda50a0b0e31be23c4072b2e",
+      "build_url": "https://github.com/meyer-lab/Fc-deconvolute/commit/c381ec7ee1188157cda50a0b0e31be23c4072b2e/checks",
+      "job_url": "https://github.com/meyer-lab/Fc-deconvolute/runs/run3"
+    },
+    "html_url": "https://meyer-lab.github.io/Fc-deconvolute/",
+    "pdf_url": "https://meyer-lab.github.io/Fc-deconvolute/manuscript.pdf",
+    "html_url_versioned": "https://meyer-lab.github.io/Fc-deconvolute/v/c381ec7ee1188157cda50a0b0e31be23c4072b2e/",
+    "pdf_url_versioned": "https://meyer-lab.github.io/Fc-deconvolute/v/c381ec7ee1188157cda50a0b0e31be23c4072b2e/manuscript.pdf",
+    "manubot_version": "0.5.0",
+    "rootstock_commit": null,
+    "manuscript_stats": {
+      "word_count": 590
+    }
+  }
+}
