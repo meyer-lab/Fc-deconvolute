@@ -1,35 +1,18 @@
-import numpy as np
+from sklearn.decomposition import PCA
+from ..imports import load_tables
+import matplotlib.pyplot as plt
 from .common import subplotLabel, getSetup
-from ..imports import load_tables, load_figures, infer_x_fixed, ADCC_groups
 
+ax, f = getSetup((6, 3), (1, 2))
 
-def makeFigure():
-    """Get a list of the axis objects and create a figure"""
-    # Get list of axis objects
-    ax, f = getSetup((6, 3), (1, 2))
+A_antiD, A_antitnp, glycans, _ = load_tables()
+pca = PCA(n_components=2)
+pca.fit(A_antiD)
+pca.fit(A_antitnp)
 
-    A_antiD, _, glycan_list, _ = load_tables()
-    adcc_3a, adcc_3b = load_figures()
-
-    mean_3a = (adcc_3a.groupby(level=0).sum()) / 4
-    mean_3b = (adcc_3b.groupby(level=0).sum()) / 4
-
-    setGroup = ADCC_groups()
-
-    glycans_3a = infer_x_fixed(A_antiD, mean_3a, setGroup)
-    glycans_3b = infer_x_fixed(A_antiD, mean_3b, setGroup)
-
-    ax[0].bar(glycan_list, glycans_3a)
-    ax[0].set_title("ADCC (Fig. 3A)")
-    ax[0].set_xlabel("Glycans")
-    ax[0].set_xticklabels(glycan_list, rotation=90)
-
-    ax[1].bar(glycan_list, glycans_3b)
-    ax[1].set_title("ADCC (Fig. 3B)")
-    ax[1].set_xlabel("Glycans")
-    ax[1].set_xticklabels(glycan_list, rotation=90)
-
-    # Add subplot labels
-    subplotLabel(ax)
-
-    return f
+A_antiD_new = pca.transform(A_antiD)
+A_antiD_new.shape
+plt.scatter(A_antiD_new[:,0], A_antiD_new[:,1])
+plt.title("PCA Plot of Glycan Matrix Scores")
+plt.xlabel("Component 1")
+plt.ylabel("Component 2")
