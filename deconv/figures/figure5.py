@@ -10,12 +10,12 @@ def makeFigure():
     binding = load_bindingData()
     A_antiD, _, glycan_list, _ = load_tables()
     R3_groups = ADCC_groups()
-    R1_groups = R1_groups()
+    R1_group = R1_groups()
 
     for ii, data in enumerate(mean_binding):
         mean_binding[ii] = mean_binding[ii].groupby(level=0).sum() / mean_binding[ii].groupby(level=0).count()
 
-    deconvA_grouped = infer_x_fixed(A_antiD, mean_binding[0], R1_groups)
+    deconvA_grouped = infer_x_fixed(A_antiD, mean_binding[0], R1_group)
     deconvB = infer_x(A_antiD, mean_binding[1])
     deconvC = infer_x(A_antiD, mean_binding[2])
     deconvD = infer_x(A_antiD, mean_binding[3])
@@ -34,7 +34,7 @@ def makeFigure():
             new_bind = resample(binding[ii], n_samples=60, replace=True, stratify=binding[ii].index)
             mean = new_bind.groupby(level=0).sum() / new_bind.groupby(level=0).count()
 
-            glycans.append(infer_x_fixed(A_antiD, mean, R1_groups))
+            glycans.append(infer_x_fixed(A_antiD, mean, R1_group))
             
         new_glycans = np.array(glycans)
         error = (deconv[ii] - np.quantile(new_glycans, 0.33, axis=0), np.quantile(new_glycans, 0.67, axis=0) - deconv[ii])
