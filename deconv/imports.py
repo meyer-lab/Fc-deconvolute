@@ -16,11 +16,6 @@ def ADCC_groups():
     return setGroup
 
 
-def R1_groups():
-    setGroup = np.zeros(24, dtype=np.int)
-    return setGroup
-
-
 def load_tables():
     antiD = pd.read_csv("./deconv/data/anti-D.csv")
     antiT = pd.read_csv("./deconv/data/anti-TNP.csv")
@@ -98,23 +93,17 @@ def infer_x_EM(X, y, nGroups):
 
 
 def load_bindingData():
-    fig2A = pd.read_csv("./deconv/data/Fig2A.csv", index_col=0)
-    RI = fig2A.iloc[:, 1]
-    fig2B = pd.read_csv("./deconv/data/Fig2B.csv", index_col=0)
-    RIIa_131H = fig2B.iloc[:, 1]
-    fig2C = pd.read_csv("./deconv/data/Fig2C.csv", index_col=0)
-    RIIa_131R = fig2C.iloc[:, 1]
-    fig2D = pd.read_csv("./deconv/data/Fig2D.csv", index_col=0)
-    RIIb = fig2D.iloc[:, 1]
-    fig2E = pd.read_csv("./deconv/data/Fig2E.csv", index_col=0)
-    RIIIa_158F = fig2E.iloc[:, 1]
-    fig2F = pd.read_csv("./deconv/data/Fig2F.csv", index_col=0)
-    RIIIa_158V = fig2F.iloc[:, 1]
-    fig2G = pd.read_csv("./deconv/data/Fig2G.csv", index_col=0)
-    RIIIb_NA1 = fig2G.iloc[:, 1]
-    fig2H = pd.read_csv("./deconv/data/Fig2H.csv", index_col=0)
-    RIIIb_NA2 = fig2H.iloc[:, 1]
+    figList = []
+    figList.append(pd.read_csv("./deconv/data/Fig2A-FcgRI.csv"))
+    figList.append(pd.read_csv("./deconv/data/Fig2B-FcgRIIa-131H.csv"))
+    figList.append(pd.read_csv("./deconv/data/Fig2C-FcgRIIa-131R.csv"))
+    figList.append(pd.read_csv("./deconv/data/Fig2D-FcgRIIb.csv"))
+    figList.append(pd.read_csv("./deconv/data/Fig2E-FcgRIIIa-158F.csv"))
+    figList.append(pd.read_csv("./deconv/data/Fig2F-FcgRIIIa-158V.csv"))
+    figList.append(pd.read_csv("./deconv/data/Fig2G-FcgRIIIb-NA1.csv"))
+    figList.append(pd.read_csv("./deconv/data/Fig2H-FcgRIIIb-NA2.csv"))
 
-    binding = [RI, RIIa_131H, RIIa_131R, RIIb, RIIIa_158F, RIIIa_158V, RIIIb_NA1, RIIIb_NA2]
+    for ii, ff in enumerate(figList):
+        figList[ii] = ff.iloc[:, :].values
 
-    return binding
+    return figList
