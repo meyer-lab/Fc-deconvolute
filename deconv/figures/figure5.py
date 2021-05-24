@@ -68,7 +68,7 @@ def makeFigure():
     ax[0].set_title("FcgRI")
     ax[1].set_title("FcgRIIa-131H")
     ax[2].set_title("FcgRIIa-131R")
-    ax[3].set_title("FcgRIIb")
+    ax[3].set_title("FcgRIIb/c")
     ax[4].set_title("FcgRIIIa-158F")
     ax[5].set_title("FcgRIIIa-158V")
     ax[6].set_title("FcgRIIIb-NA1")

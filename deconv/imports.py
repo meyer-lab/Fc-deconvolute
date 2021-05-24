@@ -104,7 +104,7 @@ def load_bindingData():
     RIIa_131H = fig2B.iloc[:, 1]
     fig2C = pd.read_csv("./deconv/data/Fig2C-FcgRIIa-131R.csv", index_col=0)
     RIIa_131R = fig2C.iloc[:, 1]
-    fig2D = pd.read_csv("./deconv/data/Fig2D-FcgRIIb.csv", index_col=0)
+    fig2D = pd.read_csv("./deconv/data/Fig2D-FcgRIIbc.csv", index_col=0)
     RIIb = fig2D.iloc[:, 1]
     fig2E = pd.read_csv("./deconv/data/Fig2E-FcgRIIIa-158F.csv", index_col=0)
     RIIIa_158F = fig2E.iloc[:, 1]
