@@ -65,14 +65,14 @@ def makeFigure():
         ax[ii].bar(glycan_list, deconv[ii], yerr=error)
         glycans = []
 
-    ax[0].set_title("FcgRI")
-    ax[1].set_title("FcgRIIa-131H")
-    ax[2].set_title("FcgRIIa-131R")
-    ax[3].set_title("FcgRIIb/c")
-    ax[4].set_title("FcgRIIIa-158F")
-    ax[5].set_title("FcgRIIIa-158V")
-    ax[6].set_title("FcgRIIIb-NA1")
-    ax[7].set_title("FcgRIIIb-NA2")
+    ax[0].set_title("FcγRI")
+    ax[1].set_title("FcγRIIa-131H")
+    ax[2].set_title("FcγRIIa-131R")
+    ax[3].set_title("FcγRIIb/c")
+    ax[4].set_title("FcγRIIIa-158F")
+    ax[5].set_title("FcγRIIIa-158V")
+    ax[6].set_title("FcγRIIIb-NA1")
+    ax[7].set_title("FcγRIIIb-NA2")
 
     for x in range(8):
         ax[x].set_xlabel("Glycans")
