@@ -37,7 +37,7 @@ def makeFigure():
             glycans.append(infer_x_fixed(A_antiD, mean, R1_group))
             
         new_glycans = np.array(glycans)
-        error = (deconv[ii] - np.quantile(new_glycans, 0.33, axis=0), np.quantile(new_glycans, 0.67, axis=0) - deconv[ii])
+        error = (abs(deconv[ii] - np.quantile(new_glycans, 0.33, axis=0)), abs(np.quantile(new_glycans, 0.67, axis=0) - deconv[ii]))
         ax[ii].bar(glycan_list, deconv[ii], yerr=error)
         glycans = []
     
@@ -49,7 +49,7 @@ def makeFigure():
             glycans.append(infer_x(A_antiD, mean))
             
         new_glycans = np.array(glycans)
-        error = (deconv[ii] - np.quantile(new_glycans, 0.33, axis=0), np.quantile(new_glycans, 0.67, axis=0) - deconv[ii])
+        error = (abs(deconv[ii] - np.quantile(new_glycans, 0.33, axis=0)), abs(np.quantile(new_glycans, 0.67, axis=0) - deconv[ii]))
         ax[ii].bar(glycan_list, deconv[ii], yerr=error)
         glycans = []
     
@@ -61,7 +61,7 @@ def makeFigure():
             glycans.append(infer_x_fixed(A_antiD, mean, R3_groups))
             
         new_glycans = np.array(glycans)
-        error = (deconv[ii] - np.quantile(new_glycans, 0.33, axis=0), np.quantile(new_glycans, 0.67, axis=0) - deconv[ii])
+        error = (abs(deconv[ii] - np.quantile(new_glycans, 0.33, axis=0)), abs(np.quantile(new_glycans, 0.67, axis=0) - deconv[ii]))
         ax[ii].bar(glycan_list, deconv[ii], yerr=error)
         glycans = []
 
