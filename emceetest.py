@@ -1,49 +1,30 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[5]:
-
-
 import numpy as np
 import matplotlib.pyplot as plt
-from numpy.core.fromnumeric import std
-from scipy.special import gamma, factorial
-from deconv.imports import load_tables, load_figures, infer_x_fixed, ADCC_groups
+from deconv.imports import load_tables, load_figures
 from scipy.stats import norm
 import emcee 
 
 A_antiD, A_antiTNP, _, mixtures = load_tables()
 adcc_3a, adcc_3b = load_figures()
-mean_3a = (adcc_3a.groupby(level=0).sum()) / 4
-mean_3b = (adcc_3b.groupby(level=0).sum()) / 4
-
+mean_3a = (adcc_3a.groupby(level=0).sum()).to_numpy() / 4
+mean_3b = (adcc_3b.groupby(level=0).sum()).to_numpy() / 4
 
 def log_prob(x, mixtures, ADCC_true):
-    k = 10
-    x = np.transpose(x)
-    ADCC_pred =  mixtures @ x
-    residuals = ADCC_true - ADCC_pred
-    scale = np.std(residuals)
+    residuals = ADCC_true - (mixtures @ x.T)
+    logpdf = np.sum(norm.logpdf(residuals, loc=0, scale=1.0))
 
-    log_probability = norm.logpdf(residuals, loc=0, scale= scale)
-    return log_probability
+    # Enforce that inferred activities are positive
+    bounds = 1000.0 * np.linalg.norm(np.maximum(x, 0.0))
 
-ndim, nwalkers = 24, 100
-p0 = np.random.randn(nwalkers, ndim)
+    return logpdf - bounds
+
+ndim, nwalkers = 24, 50
+p0 = np.absolute(np.random.randn(nwalkers, ndim))
 
 sampler = emcee.EnsembleSampler(nwalkers, ndim, log_prob, args = [A_antiD, mean_3a])
-sampler.run_mcmc(p0, 10000)
+sampler.run_mcmc(p0, 1000, progress=True, thin=5)
+samples = sampler.get_chain(flat=True, discard=10)
 
-
-# Traceback (most recent call last):
-#   File "/home/ehunter/Fc-deconvolute/venv/lib/python3.9/site-packages/emcee/ensemble.py", line 619, in __call__
-#     return self.f(x, *self.args, **self.kwargs)
-#   File "/home/ehunter/Fc-deconvolute/emceetest.py", line 21, in log_prob
-#     ADCC_pred =  x @ mixtures
-# ValueError: matmul: Input operand 1 has a mismatch in its core dimension 0, with gufunc signature (n?,k),(k,m?)->(n?,m?) (size 20 is different from 24)
-# Traceback (most recent call last):
-# In[ ]:
-
-
-
-
+plt.plot(samples[:, (9, 10, 11, 12, 13)])
+plt.xlabel("step number")
+plt.savefig("out.png")
