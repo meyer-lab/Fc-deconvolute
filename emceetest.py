@@ -1,31 +1,29 @@
 import numpy as np
+from scipy.stats import norm
 import seaborn as sns
 import corner
 import matplotlib.pyplot as plt
 from deconv.imports import load_tables, load_figures
-from numba import njit
-import emcee 
+import emcee
 
 A_antiD, A_antiTNP, _, mixtures = load_tables()
 adcc_3a, adcc_3b = load_figures()
 mean_3a = (adcc_3a.groupby(level=0).sum()).to_numpy() / 4
-mean_3b = (adcc_3b.groupby(level=0).sum()).to_numpy() / 4
 
-@njit
+
 def log_prob(x, mixtures, ADCC_true):
-    residuals = ADCC_true - (mixtures @ x.T)
-    residuals /= 0.5 # Scale residuals by stdev
-    # Use expression for logpdf so we can compile with numba
-    logpdf = np.sum(-np.square(residuals) / 2.0 - np.sqrt(2*np.pi))
+    residuals = ADCC_true[:, np.newaxis] - (mixtures @ x.T)
+    logpdf = np.sum(norm.logpdf(residuals, scale=1.0), axis=0)
 
     # Enforce that inferred activities are positive
-    bounds = 1e6 * np.linalg.norm(np.minimum(x, 0.0))
+    bounds = 1e3 * np.linalg.norm(np.minimum(x, 0.0), axis=1)
     return logpdf - bounds
+
 
 ndim, nwalkers = 24, 100
 p0 = np.absolute(np.random.randn(nwalkers, ndim))
 
-sampler = emcee.EnsembleSampler(nwalkers, ndim, log_prob, args = [A_antiD, mean_3a])
+sampler = emcee.EnsembleSampler(nwalkers, ndim, log_prob, vectorize=True, args=[A_antiD, mean_3a])
 sampler.run_mcmc(p0, 40000, progress=True)
 
 burnin = 20000
