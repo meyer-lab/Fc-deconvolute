@@ -32,7 +32,7 @@ def load_tables():
 
 
 def load_figures():
-    # binding in doners with specific r3a gamma receptor
+    # binding in donors with specific r3a gamma receptor
     figA = pd.read_csv("./deconv/data/fig3a.csv")
     # combination of 4 independent receptors?
     # number of the mixture (4 data points for each mixture), cytotoxicity percentage
