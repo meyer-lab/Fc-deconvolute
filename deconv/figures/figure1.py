@@ -9,18 +9,14 @@ def makeFigure():
     ax, f = getSetup((9, 3), (1, 3))
 
     adcc3a, adcc3b = load_figures()
-    binding = load_bindingData()
+    mean_binding = list(load_bindingData())
+    mean_binding = [m.groupby(level=0).mean() for m in mean_binding]
 
     mean_3a = (adcc3a.groupby(level=0).sum()) / 4
     mean_3b = (adcc3b.groupby(level=0).sum()) / 4
-    binding = [np.nanmean(b, axis=0) for b in binding]
+    data = [mean_3a, mean_3b] + mean_binding
 
-    data = []
-    data.append(mean_3a)
-    data.append(mean_3b)
-    data = data + binding
-
-    data2 = np.array(data).T
+    data2 = np.transpose(np.array(data))
     pca2 = PCA()
     data_new = pca2.fit_transform(data2)
 
