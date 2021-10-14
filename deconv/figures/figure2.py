@@ -2,6 +2,7 @@ import numpy as np
 from .common import subplotLabel, getSetup
 from ..imports import load_tables, load_figures, infer_x_fixed, ADCC_groups
 
+
 def makeFigure():
     """Check the fit using infered x values"""
     ax, f = getSetup((6, 3), (1, 2))
@@ -28,16 +29,16 @@ def makeFigure():
     width = 0.35
     ind = np.arange(len(mixtures))
 
-    ax[0].bar(ind - width/2, infer_adcc_3a, width, label = 'Inferred ADCC')
-    ax[0].bar(ind + width/2, mean_3a, width, label = 'Original ADCC')
+    ax[0].bar(ind - width / 2, infer_adcc_3a, width, label='Inferred ADCC')
+    ax[0].bar(ind + width / 2, mean_3a, width, label='Original ADCC')
     ax[0].set_title("Original and Inferred ADCC (Fig. 3A)")
     ax[0].set_xlabel("Mixtures")
     ax[0].set_xticklabels(mixtures, rotation=90)
     ax[0].set_xticks(ind)
     ax[0].legend()
 
-    ax[1].bar(ind - width/2, infer_adcc_3b, width, label = 'Inferred ADCC')
-    ax[1].bar(ind + width/2, mean_3b, width, label = 'Original ADCC')
+    ax[1].bar(ind - width / 2, infer_adcc_3b, width, label='Inferred ADCC')
+    ax[1].bar(ind + width / 2, mean_3b, width, label='Original ADCC')
     ax[1].set_title("Original and Inferred ADCC (Fig. 3B)")
     ax[1].set_xlabel("Mixtures")
     ax[1].set_xticklabels(mixtures, rotation=90)

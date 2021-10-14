@@ -2,6 +2,7 @@ import numpy as np
 from .common import subplotLabel, getSetup
 from ..imports import load_tables, infer_x, load_bindingData
 
+
 def makeFigure():
     ax, f = getSetup((6, 12), (4, 2))
 

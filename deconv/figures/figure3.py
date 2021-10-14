@@ -2,6 +2,7 @@ import numpy as np
 from .common import subplotLabel, getSetup
 from ..imports import load_tables, load_figures, infer_x
 
+
 def makeFigure():
     # Get list of axis objects
     ax, f = getSetup((6, 3), (1, 2))
@@ -22,14 +23,14 @@ def makeFigure():
 
     ind = np.arange(len(glycan_list))
 
-    ax[0].bar(ind, glycans_3a, label = 'Anti-D and Anti-TNP')
+    ax[0].bar(ind, glycans_3a, label='Anti-D and Anti-TNP')
     ax[0].set_title("Anti-D and Anti-TNP (Fig. 3A)")
     ax[0].set_xlabel("Glycans")
     ax[0].set_xticklabels(glycan_list, rotation=90)
     ax[0].set_xticks(ind)
     ax[0].legend()
 
-    ax[1].bar(ind, glycans_3b, label = 'Anti-D and Anti-TNP')
+    ax[1].bar(ind, glycans_3b, label='Anti-D and Anti-TNP')
     ax[1].set_title("Anti-D and Anti-TNP (Fig. 3B)")
     ax[1].set_xlabel("Glycans")
     ax[1].set_xticklabels(glycan_list, rotation=90)

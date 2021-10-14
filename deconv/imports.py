@@ -20,7 +20,7 @@ def load_tables():
     antiD = pd.read_csv("./deconv/data/anti-D.csv")
     antiT = pd.read_csv("./deconv/data/anti-TNP.csv")
     glycan_list = list(antiD.columns.values[7:])
-    mixtures = antiD.iloc[:,0]
+    mixtures = antiD.iloc[:, 0]
     A_antiD = antiD.iloc[:, 7:].values
     A_antiTNP = antiT.iloc[:, 7:].values
     return (A_antiD, A_antiTNP, glycan_list, mixtures)
