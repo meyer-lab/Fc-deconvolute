@@ -3,6 +3,7 @@ from .common import subplotLabel, getSetup
 from ..imports import load_tables, infer_x, load_bindingData, ADCC_groups, R1_groups, infer_x_fixed
 from sklearn.utils import resample
 
+
 def makeFigure():
     ax, f = getSetup((6, 12), (4, 2))
     mean_binding = list(load_bindingData())
