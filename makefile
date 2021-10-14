@@ -1,6 +1,7 @@
 flist = 1 2 3 4 5 6 7
+flistPath = $(patsubst %, output/figure%.svg, $(flist))
 
-all: $(patsubst %, output/figure%.svg, $(flist))
+all: $(flistPath) output/manuscript.docx output/manuscript.html
 
 venv: venv/bin/activate
 
@@ -20,17 +21,15 @@ output/manuscript.md: venv manuscript/*.md
 	. venv/bin/activate && manubot process --content-directory=manuscript --output-directory=output --cache-directory=cache --skip-citations --log-level=INFO
 	git remote rm rootstock
 
-output/manuscript.html: venv output/manuscript.md $(patsubst %, output/figure%.svg, $(flist))
+output/manuscript.html: venv output/manuscript.md $(flistPath)
 	. venv/bin/activate && pandoc --verbose \
 		--defaults=./common/templates/manubot/pandoc/common.yaml \
-		--defaults=./common/templates/manubot/pandoc/html.yaml \
-		output/manuscript.md
+		--defaults=./common/templates/manubot/pandoc/html.yaml output/manuscript.md
 
-output/manuscript.docx: venv output/manuscript.md $(patsubst %, output/figure%.svg, $(flist))
+output/manuscript.docx: venv output/manuscript.md $(flistPath)
 	. venv/bin/activate && pandoc --verbose \
 		--defaults=./common/templates/manubot/pandoc/common.yaml \
-		--defaults=./common/templates/manubot/pandoc/docx.yaml \
-		output/manuscript.md
+		--defaults=./common/templates/manubot/pandoc/docx.yaml output/manuscript.md
 
 clean:
 	rm -rf output venv
