@@ -1,4 +1,4 @@
-from sklearn.decomposition import PCA
+from sklearn.decomposition import NMF
 from deconv.imports import load_figures, load_bindingData
 from deconv.figures.common import subplotLabel, getSetup
 import pandas as pd
@@ -17,30 +17,35 @@ def makeFigure():
     data = [mean_3a, mean_3b] + mean_binding
 
     data2 = np.transpose(np.array(data))
-    pca2 = PCA()
+    pca2 = NMF(n_components=2, max_iter=2000, tol=1e-9, init="nndsvda")
     data_new = pca2.fit_transform(data2)
 
     ax[0].scatter(data_new[:, 0], data_new[:, 1])
     ax[0].set_title("Scores")
-    ax[0].set_xlabel("Component 1 ({ratio:.2f})".format(ratio=pca2.explained_variance_ratio_[0]))
-    ax[0].set_ylabel("Component 2 ({ratio:.2f})".format(ratio=pca2.explained_variance_ratio_[1]))
+    ax[0].set_xlabel("Component 1")
+    ax[0].set_ylabel("Component 2")
 
     l = ['adcc3a', 'adcc3b', 'bindingA', 'bindingB', 'bindingC', 'bindingD', 'bindingE', 'bindingF', 'bindingG', 'bindingH']
     loadings = pd.DataFrame(pca2.components_.T[:, :2], columns=['PC1', 'PC2'], index=l)
     ax[1].scatter(loadings.iloc[:, 0], loadings.iloc[:, 1])
     ax[1].set_title("Loadings")
-    ax[1].set_xlabel("Component 1 ({ratio:.2f})".format(ratio=pca2.explained_variance_ratio_[0]))
-    ax[1].set_ylabel("Component 2 ({ratio:.2f})".format(ratio=pca2.explained_variance_ratio_[1]))
+    ax[1].set_xlabel("Component 1")
+    ax[1].set_ylabel("Component 2")
 
     for i in range(10):
         ax[1].annotate(l[i], (loadings.iloc[i, 0], loadings.iloc[i, 1]))
 
-    acc_variance = pca2.explained_variance_ratio_.copy()
-    acc_variance = np.cumsum(acc_variance)
+    error = np.zeros(5)
+    for ii in range(5):
+        pca2 = NMF(n_components=ii+1, max_iter=2000, tol=1e-9, init="nndsvda")
+        pca2.fit(data2)
 
-    ax[2].plot(range(1, acc_variance.size + 1), acc_variance)
-    ax[2].set_ylabel("Explained Variance")
+        error[ii] = pca2.reconstruction_err_
+
+    ax[2].plot(range(1, 6), error)
+    ax[2].set_ylabel("Error")
     ax[2].set_xlabel("Number of Components")
+    ax[2].set_ylim(bottom=0.0)
 
     # Add subplot labels
     subplotLabel(ax)
