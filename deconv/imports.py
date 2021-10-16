@@ -60,21 +60,17 @@ def cost(pIn, X, y, setGroups, norm=False):
     return outt
 
 
-def infer_x_fixed(X, y, setGroups, numGroups=None, retP=False):
+def infer_x_fixed(X, y, setGroups):
     assert setGroups.dtype == np.int
     assert setGroups.ndim == 1
     assert y.ndim == 1
     assert y.size == X.shape[0]
     assert X.shape[1] == setGroups.size
 
-    if numGroups is None:
-        numGroups = len(np.unique(setGroups))
+    numGroups = len(np.unique(setGroups))
 
     res = least_squares(lambda pp: cost(pp, X, y, setGroups), np.ones(numGroups), ftol=1e-9, bounds=(0, np.inf))
     assert res.success
-
-    if retP:
-        return res.x
 
     return res.x[setGroups]
 
