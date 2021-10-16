@@ -32,7 +32,7 @@ def load_tables():
 
 
 def load_figures():
-    # binding in doners with specific r3a gamma receptor
+    # binding in donors with specific r3a gamma receptor
     figA = pd.read_csv("./deconv/data/fig3a.csv")
     # combination of 4 independent receptors?
     # number of the mixture (4 data points for each mixture), cytotoxicity percentage
@@ -41,6 +41,13 @@ def load_figures():
     adcc_3b = figB.iloc[:, 0]
     return (adcc_3a, adcc_3b)
 
+def load_complement():
+    # binding in aTNP 
+    figA = pd.read_csv('./deconv/data/fig4a c1q.csv')
+    figB = pd.read_csv('./deconv/data/fig4b c4.csv')
+    complement_4a = figA.to_numpy()[:,1:]
+    complement_4b = figB.to_numpy()[:,1:]
+    return(complement_4a, complement_4b)
 
 def infer_x(A, adcc):
     return nnls(A, adcc, maxiter=None)[0]
