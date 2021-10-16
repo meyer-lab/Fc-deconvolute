@@ -18,6 +18,5 @@ def makeFigure():
     for i in range(3):
         ax[i].set_title("Activity Scores [{}]".format(i))
         ax[i].errorbar(range(1,25), median[:,i], yerr=[p33[:,i], p66[:,i]], fmt='o')
-    
-    #plt.savefig('out2.jpg')
+
     return f
