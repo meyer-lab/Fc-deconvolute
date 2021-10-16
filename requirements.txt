@@ -10,5 +10,3 @@ pandoc-fignos==2.4.0
 pandoc-eqnos==2.5.0
 pandoc-tablenos==2.3.0
 seaborn==0.11.1
-tqdm
-corner
