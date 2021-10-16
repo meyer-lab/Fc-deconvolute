@@ -1,4 +1,4 @@
-flist = 1 2 3 4 5 6 7
+flist = 1 2 3 4 5 6 7 11
 flistPath = $(patsubst %, output/figure%.svg, $(flist))
 
 all: $(flistPath) output/manuscript.docx output/manuscript.html
