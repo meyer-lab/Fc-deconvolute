@@ -33,6 +33,3 @@ def getEmceeTrace():
     trace = pm.sample(2000, init="advi+adapt_diag", model=M, return_inferencedata=True, target_accept=0.9, chains=1)
 
     return trace
-
-    
-
