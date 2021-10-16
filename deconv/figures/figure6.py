@@ -1,4 +1,3 @@
-import numpy as np
 from .common import subplotLabel, getSetup
 from ..imports import load_tables, load_figures, infer_x_fixed, ADCC_groups
 

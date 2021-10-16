@@ -31,7 +31,7 @@ def makeFigure():
 
         glycans_3a.append(infer_x_fixed(A_antiD, mean_3a, setGroup))
         glycans_3b.append(infer_x_fixed(A_antiD, mean_3b, setGroup))
-    
+
     glycans3a = np.array(glycans_3a)
     error3a = (mean3a - np.quantile(glycans3a, 0.33, axis=0), np.quantile(glycans3a, 0.67, axis=0) - mean3a)
 
