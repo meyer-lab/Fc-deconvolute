@@ -18,7 +18,7 @@ def getEmceeTrace():
 
     compA, compB = load_complement()
     mean_4a = np.mean(compA, axis=1)
-    mean_4b = np.mean(compA, axis=1)
+    mean_4b = np.mean(compB, axis=1)
     mean_Comp = np.array([mean_4a, mean_4b])
 
     res = np.concatenate((mean_binding, mean_ADCC, mean_Comp))
