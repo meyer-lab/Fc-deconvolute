@@ -1,6 +1,6 @@
 import numpy as np
 from theano import tensor as T
-from .imports import load_tables, load_bindingData, load_figures
+from .imports import load_tables, load_bindingData, load_figures, load_complement
 import pymc3 as pm
 
 def getEmceeTrace():
@@ -16,13 +16,18 @@ def getEmceeTrace():
 
     mean_ADCC = np.array([mean_3a, mean_3b])
 
-    res = np.concatenate((mean_binding, mean_ADCC))
+    compA, compB = load_complement()
+    mean_4a = np.mean(compA, axis=1)
+    mean_4b = np.mean(compB, axis=1)
+    mean_Comp = np.array([mean_4a, mean_4b])
+
+    res = np.concatenate((mean_binding, mean_ADCC, mean_Comp))
 
     M = pm.Model()
 
     with M:
         x_x = pm.Lognormal("activity_scores", sigma=1.0, shape=(24, 3))
-        x_y = pm.Lognormal("activity_loadings", sigma=1.0, shape=(3, 10))
+        x_y = pm.Lognormal("activity_loadings", sigma=1.0, shape=(3, 12))
 
         pm.Normal("scale", mu=1.0, sigma=0.1, observed=T.sum(x_y, axis=1)) # Enforce unit scaled loadings
 
