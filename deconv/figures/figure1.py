@@ -1,5 +1,5 @@
 from sklearn.decomposition import PCA
-from deconv.imports import load_figures, load_bindingData
+from deconv.imports import load_dekkers
 from deconv.figures.common import subplotLabel, getSetup
 import pandas as pd
 import numpy as np
@@ -8,13 +8,16 @@ import numpy as np
 def makeFigure():
     ax, f = getSetup((9, 3), (1, 3))
 
-    adcc3a, adcc3b = load_figures()
-    mean_binding = list(load_bindingData())
+    data_dekkers = load_dekkers()
+
+    mean_binding = data_dekkers["bindings"]
     mean_binding = [m.groupby(level=0).mean() for m in mean_binding]
 
-    mean_3a = (adcc3a.groupby(level=0).sum()) / 4
-    mean_3b = (adcc3b.groupby(level=0).sum()) / 4
+    mean_3a = data_dekkers["meanADCC3a"]
+    mean_3b = data_dekkers["meanADCC3b"]
     data = [mean_3a, mean_3b] + mean_binding
+
+    # TODO: add compement activation 
 
     data2 = np.transpose(np.array(data))
     pca2 = PCA()

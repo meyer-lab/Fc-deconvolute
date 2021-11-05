@@ -1,17 +1,18 @@
 import numpy as np
 from .common import subplotLabel, getSetup
-from ..imports import load_tables, load_figures, infer_x
+from ..imports import infer_x, load_dekkers
 
 
 def makeFigure():
     # Get list of axis objects
     ax, f = getSetup((6, 3), (1, 2))
 
-    A_antiD, A_antiTNP, glycan_list, _ = load_tables()
-    adcc_3a, adcc_3b = load_figures()
+    data_dekkers = load_dekkers()
+    
+    A_antiD, A_antiTNP, glycan_list = data_dekkers["antiD"], data_dekkers["antiTNP"], data_dekkers["glycans"]
 
-    mean_3a = (adcc_3a.groupby(level=0).sum()) / 4
-    mean_3b = (adcc_3b.groupby(level=0).sum()) / 4
+    mean_3a = data_dekkers["meanADCC3a"]
+    mean_3b = data_dekkers["meanADCC3b"]
 
     A = np.concatenate((A_antiD, A_antiTNP), axis=0)
 

@@ -1,17 +1,18 @@
 import numpy as np
 from .common import subplotLabel, getSetup
-from ..imports import load_tables, load_figures, infer_x_fixed, ADCC_groups
+from ..imports import infer_x_fixed, ADCC_groups, load_dekkers
 
 
 def makeFigure():
     """Check the fit using infered x values"""
     ax, f = getSetup((6, 3), (1, 2))
 
-    A_antiD, A_antiTNP, _, mixtures = load_tables()
-    adcc_3a, adcc_3b = load_figures()
+    data_dekkers = load_dekkers()
 
-    mean_3a = (adcc_3a.groupby(level=0).sum()) / 4
-    mean_3b = (adcc_3b.groupby(level=0).sum()) / 4
+    A_antiD, A_antiTNP, mixtures = data_dekkers["antiD"], data_dekkers["antiTNP"], data_dekkers["mixtures"]
+
+    mean_3a = data_dekkers["meanADCC3a"]
+    mean_3b = data_dekkers["meanADCC3b"]
 
     double_3a = np.concatenate((mean_3a, mean_3a), axis=0)
     double_3b = np.concatenate((mean_3b, mean_3b), axis=0)
