@@ -1,5 +1,4 @@
 import numpy as np
-from scipy.sparse import data
 from theano import tensor as T
 from .imports import load_dekkers
 import pymc3 as pm

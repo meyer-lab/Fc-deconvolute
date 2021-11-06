@@ -1,5 +1,4 @@
 import numpy as np
-from numpy.lib.function_base import append
 import pandas as pd
 from scipy.optimize import nnls
 from scipy.optimize import least_squares
