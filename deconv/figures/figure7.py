@@ -13,7 +13,6 @@ def makeFigure():
     mean_3a = data_dekkers["meanADCC3a"]
     mean_3b = data_dekkers["meanADCC3b"]
 
-
     infer_adcc_3a = []
     infer_adcc_3b = []
 

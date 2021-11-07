@@ -11,7 +11,7 @@ def makeFigure():
 
     mean_binding = list(data_dekkers["bindings"])
     binding = data_dekkers["bindings"]
-    A_antiD, glycan_list = data_dekkers["antiD"],  data_dekkers["glycans"]
+    A_antiD, glycan_list = data_dekkers["antiD"], data_dekkers["glycans"]
     R3_groups = ADCC_groups()
     R1_group = R1_groups()
 
@@ -38,31 +38,31 @@ def makeFigure():
             mean = new_bind.groupby(level=0).sum() / new_bind.groupby(level=0).count()
 
             glycans.append(infer_x_fixed(A_antiD, mean, R1_group))
-            
+
         new_glycans = np.array(glycans)
         error = (abs(deconv[ii] - np.quantile(new_glycans, 0.33, axis=0)), abs(np.quantile(new_glycans, 0.67, axis=0) - deconv[ii]))
         ax[ii].bar(glycan_list, deconv[ii], yerr=error)
         glycans = []
-    
-    for ii in range(1,4):
+
+    for ii in range(1, 4):
         for i in range(num_iters):
             new_bind = resample(binding[ii], n_samples=60, replace=True, stratify=binding[ii].index)
             mean = new_bind.groupby(level=0).sum() / new_bind.groupby(level=0).count()
 
             glycans.append(infer_x(A_antiD, mean))
-            
+
         new_glycans = np.array(glycans)
         error = (abs(deconv[ii] - np.quantile(new_glycans, 0.33, axis=0)), abs(np.quantile(new_glycans, 0.67, axis=0) - deconv[ii]))
         ax[ii].bar(glycan_list, deconv[ii], yerr=error)
         glycans = []
-    
-    for ii in range(4,8):
+
+    for ii in range(4, 8):
         for i in range(num_iters):
             new_bind = resample(binding[ii], n_samples=60, replace=True, stratify=binding[ii].index)
             mean = new_bind.groupby(level=0).sum() / new_bind.groupby(level=0).count()
 
             glycans.append(infer_x_fixed(A_antiD, mean, R3_groups))
-            
+
         new_glycans = np.array(glycans)
         error = (abs(deconv[ii] - np.quantile(new_glycans, 0.33, axis=0)), abs(np.quantile(new_glycans, 0.67, axis=0) - deconv[ii]))
         ax[ii].bar(glycan_list, deconv[ii], yerr=error)

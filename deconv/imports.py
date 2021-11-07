@@ -24,7 +24,7 @@ def R1_groups():
 def load_dekkers():
     results = dict()
 
-    #anti d anti tnp
+    # anti d anti tnp
     antiD = pd.read_csv("./deconv/data/anti-D.csv")
     antiT = pd.read_csv("./deconv/data/anti-TNP.csv")
     glycan_list = list(antiD.columns.values[7:])
@@ -35,7 +35,7 @@ def load_dekkers():
     results["antiTNP"] = A_antiTNP
     results["glycans"] = glycan_list
     results["mixtures"] = mixtures
-    
+
     # load figure 3
     figA = pd.read_csv("./deconv/data/fig3a.csv")
     figB = pd.read_csv("./deconv/data/fig3b.csv")
@@ -49,14 +49,14 @@ def load_dekkers():
     # load figure 4
     figA = pd.read_csv('./deconv/data/fig4a c1q.csv')
     figB = pd.read_csv('./deconv/data/fig4b c4.csv')
-    complement_4a = figA.to_numpy()[:,1:]
-    complement_4b = figB.to_numpy()[:,1:]
+    complement_4a = figA.to_numpy()[:, 1:]
+    complement_4b = figB.to_numpy()[:, 1:]
     mean_4a = np.mean(complement_4a, axis=1)
     mean_4b = np.mean(complement_4b, axis=1)
     results["meanCompAct4a"] = mean_4a
     results["meanCompAct4b"] = mean_4b
 
-    #load figure 2
+    # load figure 2
     fig2A = pd.read_csv("./deconv/data/Fig2A-FcgRI.csv", index_col=0)
     RI = fig2A.iloc[:, 1]
     fig2B = pd.read_csv("./deconv/data/Fig2B-FcgRIIa-131H.csv", index_col=0)
@@ -77,6 +77,7 @@ def load_dekkers():
     results["bindings"] = binding
 
     return (results)
+
 
 def infer_x(A, adcc):
     return nnls(A, adcc, maxiter=None)[0]

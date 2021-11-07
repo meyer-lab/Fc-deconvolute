@@ -11,8 +11,8 @@ def makeFigure():
     ax, f = getSetup((6, 3), (1, 2))
 
     data_dekkers = load_dekkers()
-    
-    A_antiD, glycan_list = data_dekkers["antiD"],  data_dekkers["glycans"]
+
+    A_antiD, glycan_list = data_dekkers["antiD"], data_dekkers["glycans"]
 
     mean_3a = data_dekkers["meanADCC3a"]
     mean_3b = data_dekkers["meanADCC3b"]

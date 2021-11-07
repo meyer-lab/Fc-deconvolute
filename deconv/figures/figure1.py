@@ -17,7 +17,7 @@ def makeFigure():
     mean_3b = data_dekkers["meanADCC3b"]
     data = [mean_3a, mean_3b] + mean_binding
 
-    # TODO: add compement activation 
+    # TODO: add compement activation
 
     data2 = np.transpose(np.array(data))
     pca2 = PCA()
