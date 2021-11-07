@@ -1,14 +1,17 @@
 import numpy as np
 from .common import subplotLabel, getSetup
-from ..imports import load_tables, infer_x, load_bindingData, ADCC_groups, R1_groups, infer_x_fixed
+from ..imports import infer_x, ADCC_groups, R1_groups, infer_x_fixed, load_dekkers
 from sklearn.utils import resample
 
 
 def makeFigure():
     ax, f = getSetup((6, 12), (4, 2))
-    mean_binding = list(load_bindingData())
-    binding = load_bindingData()
-    A_antiD, _, glycan_list, _ = load_tables()
+
+    data_dekkers = load_dekkers()
+
+    mean_binding = list(data_dekkers["bindings"])
+    binding = data_dekkers["bindings"]
+    A_antiD, glycan_list = data_dekkers["antiD"],  data_dekkers["glycans"]
     R3_groups = ADCC_groups()
     R1_group = R1_groups()
 

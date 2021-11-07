@@ -1,5 +1,5 @@
 from .common import subplotLabel, getSetup
-from ..imports import load_tables, load_figures, infer_x_fixed, ADCC_groups
+from ..imports import infer_x_fixed, ADCC_groups, load_dekkers
 
 
 def makeFigure():
@@ -7,11 +7,12 @@ def makeFigure():
     # Get list of axis objects
     ax, f = getSetup((6, 3), (1, 2))
 
-    A_antiD, _, glycan_list, _ = load_tables()
-    adcc_3a, adcc_3b = load_figures()
+    data_dekkers = load_dekkers()
 
-    mean_3a = (adcc_3a.groupby(level=0).sum()) / 4
-    mean_3b = (adcc_3b.groupby(level=0).sum()) / 4
+    A_antiD, glycan_list = data_dekkers["antiD"],  data_dekkers["glycans"]
+
+    mean_3a = data_dekkers["meanADCC3a"]
+    mean_3b = data_dekkers["meanADCC3b"]
 
     setGroup = ADCC_groups()
 

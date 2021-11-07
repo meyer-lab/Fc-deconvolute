@@ -1,16 +1,18 @@
 import numpy as np
-from deconv.imports import load_tables, load_figures, infer_x
+from deconv.imports import infer_x, load_dekkers
 from deconv.figures.common import subplotLabel, getSetup
 
 
 def makeFigure():
     ax, f = getSetup((6, 3), (1, 2))
 
-    A_antiD, _, _, _ = load_tables()
-    adcc3a, adcc3b = load_figures()
+    data_dekkers = load_dekkers()
 
-    mean_3a = (adcc3a.groupby(level=0).sum()) / 4
-    mean_3b = (adcc3b.groupby(level=0).sum()) / 4
+    A_antiD = data_dekkers["antiD"]
+
+    mean_3a = data_dekkers["meanADCC3a"]
+    mean_3b = data_dekkers["meanADCC3b"]
+
 
     infer_adcc_3a = []
     infer_adcc_3b = []

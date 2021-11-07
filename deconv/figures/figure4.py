@@ -1,6 +1,7 @@
 import numpy as np
+import pandas as pd
 from .common import subplotLabel, getSetup
-from ..imports import load_tables, load_figures, infer_x_fixed, ADCC_groups
+from ..imports import infer_x_fixed, ADCC_groups, load_dekkers
 from sklearn.utils import resample
 
 
@@ -9,13 +10,21 @@ def makeFigure():
     # Get list of axis objects
     ax, f = getSetup((6, 3), (1, 2))
 
-    A_antiD, _, glycan_list, _ = load_tables()
-    adcc_3a, adcc_3b = load_figures()
+    data_dekkers = load_dekkers()
+    
+    A_antiD, glycan_list = data_dekkers["antiD"],  data_dekkers["glycans"]
+
+    mean_3a = data_dekkers["meanADCC3a"]
+    mean_3b = data_dekkers["meanADCC3b"]
+
+    figA = pd.read_csv("./deconv/data/fig3a.csv")
+    figB = pd.read_csv("./deconv/data/fig3b.csv")
+    adcc_3a = figA.iloc[:, 0]
+    adcc_3b = figB.iloc[:, 0]
+
     setGroup = ADCC_groups()
 
     num_iters = 100
-    mean_3a = (adcc_3a.groupby(level=0).sum()) / 4
-    mean_3b = (adcc_3b.groupby(level=0).sum()) / 4
     mean3a = infer_x_fixed(A_antiD, mean_3a, setGroup)
     mean3b = infer_x_fixed(A_antiD, mean_3b, setGroup)
 
