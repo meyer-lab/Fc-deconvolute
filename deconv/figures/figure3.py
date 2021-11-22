@@ -1,44 +1,46 @@
-import numpy as np
+from sklearn.decomposition import PCA
 from .common import subplotLabel, getSetup
-from ..imports import infer_x, load_dekkers
-
+from ..emceeDeconv import getEmceeTrace
+import pandas as pd
+import numpy as np
+from ..imports import load_dekkers
 
 def makeFigure():
-    # Get list of axis objects
-    ax, f = getSetup((6, 3), (1, 2))
-
+    ax, f = getSetup((12, 6), (1, 2))
+    trace = getEmceeTrace()
     data_dekkers = load_dekkers()
 
-    A_antiD, A_antiTNP, glycan_list = data_dekkers["antiD"], data_dekkers["antiTNP"], data_dekkers["glycans"]
+    activity_scores = np.median(trace.posterior.activity_scores[0], axis =0)
+    activity_loadings = np.median(trace.posterior.activity_loadings[0], axis = 0)
 
-    mean_3a = data_dekkers["meanADCC3a"]
-    mean_3b = data_dekkers["meanADCC3b"]
+    pca = PCA()
+    pca2 = PCA()
+    scores_pca = pca.fit_transform(activity_scores)
+    loadings_pca = pca2.fit_transform(activity_loadings)
 
-    A = np.concatenate((A_antiD, A_antiTNP), axis=0)
+    ax, f = getSetup((9, 4), (1, 2))
 
-    double_3a = np.concatenate((mean_3a, mean_3a), axis=0)
-    double_3b = np.concatenate((mean_3b, mean_3b), axis=0)
+    ax[0].scatter(scores_pca[:, 0], scores_pca[:, 1])
+    ax[0].set_title("Activity Scores")
+    ax[0].set_xlabel("Component 1 ({ratio:.2f})".format(ratio=pca.explained_variance_ratio_[0]))
+    ax[0].set_ylabel("Component 2 ({ratio:.2f})".format(ratio=pca.explained_variance_ratio_[1]))
+    glycans = data_dekkers["glycans"]
 
-    glycans_3a = infer_x(A, double_3a)
-    glycans_3b = infer_x(A, double_3b)
+    scores = pd.DataFrame(scores_pca)
+    for i in range(24):
+        ax[0].annotate(glycans[i], (scores.iloc[i, 0], scores.iloc[i, 1]))
 
-    ind = np.arange(len(glycan_list))
+    ax[1].scatter(loadings_pca[:, 0], loadings_pca[:, 1])
+    ax[1].set_title("Activity Loadings")
+    ax[1].set_xlabel("Component 1 ({ratio:.2f})".format(ratio=pca2.explained_variance_ratio_[0]))
+    ax[1].set_ylabel("Component 2 ({ratio:.2f})".format(ratio=pca2.explained_variance_ratio_[1]))
+    labels = ["FcRI", 'FcRII', 'FcRIII']
+    loadings = pd.DataFrame(loadings_pca)
 
-    ax[0].bar(ind, glycans_3a, label='Anti-D and Anti-TNP')
-    ax[0].set_title("Anti-D and Anti-TNP (Fig. 3A)")
-    ax[0].set_xlabel("Glycans")
-    ax[0].set_xticklabels(glycan_list, rotation=90)
-    ax[0].set_xticks(ind)
-    ax[0].legend()
-
-    ax[1].bar(ind, glycans_3b, label='Anti-D and Anti-TNP')
-    ax[1].set_title("Anti-D and Anti-TNP (Fig. 3B)")
-    ax[1].set_xlabel("Glycans")
-    ax[1].set_xticklabels(glycan_list, rotation=90)
-    ax[1].set_xticks(ind)
-    ax[1].legend()
+    for i in range(3):
+        ax[1].annotate(labels[i], (loadings.iloc[i, 0], loadings.iloc[i, 1]))
 
     # Add subplot labels
     subplotLabel(ax)
-
+    
     return f
