@@ -31,11 +31,13 @@ def makeFigure():
     for i in range(3):
         p33_s[:, i] = np.percentile(median_scores[:,i], 33)
         p66_s[:,i] =np.percentile(median_scores[:,i], 66)
+    
 
     #set up matrix w errors: LOADINGS
-    p33_l = np.zeros((3,12))
-    p66_l = np.zeros((3,12))
-    for i in range(12):
+    median_loadings = np.transpose(median_loadings)
+    p33_l = np.zeros((12,3))
+    p66_l = np.zeros((12,3))
+    for i in range(3):
         p33_l[:, i] = np.percentile(median_loadings[:,i], 33)
         p66_l[:,i] =np.percentile(median_loadings[:,i], 66)
 
@@ -44,7 +46,7 @@ def makeFigure():
     ax[0].set_title("Activity Scores")
     ax[0].set_xlabel("Component 1 ({ratio:.2f})".format(ratio=pc1_var))
     ax[0].set_ylabel("Component 2 ({ratio:.2f})".format(ratio=pc2_var))
-    ax[0].errorbar(median_scores[:, 0], median_scores[:, 1], yerr=[p33_s[:,1], p66_s[:,1]], xerr = [p33_s[:,0], p66_s[:,0]], fmt='o')
+    ax[0].errorbar(median_scores[:, 0], median_scores[:, 1], yerr = [p33_s[:,1], p66_s[:,1]], xerr= [p33_s[:,0], p66_s[:,0]], fmt='o')
     glycans = data_dekkers["glycans"]
 
     scores = pd.DataFrame(median_scores)
@@ -54,11 +56,11 @@ def makeFigure():
     ax[1].set_title("Activity Loadings")
     ax[1].set_xlabel("Component 1 ({ratio:.2f})".format(ratio=p1var))
     ax[1].set_ylabel("Component 2 ({ratio:.2f})".format(ratio=p2var))
-    ax[1].errorbar(median_loadings[:, 0], median_loadings[:, 1], yerr=[p33_l[:,1], p66_l[:,1]], xerr = [p33_l[:,0], p66_l[:,0]], fmt='o')
-    labels = ["FcRI", 'FcRII', 'FcRIII']
+    ax[1].errorbar(median_loadings[:, 0], median_loadings[:, 1], yerr = [p33_l[:,1], p66_l[:,1]], xerr = [p33_l[:,0], p66_l[:,0]], fmt = 'o')
+    labels = ['ADCC FcγRIIIA158F/F', 'ADCC FcγRIIIA158V/V', 'Complement Activation C1q', 'Complement Activation C4', 'Binding FcγRIa', 'Binding FcγRIIa 131H', 'Binding FcγRIIa 131R', 'Binding FcγRIIb/c', 'Binding FcγRIIIa 158F', 'Binding FcγRIIIa 158V', 'Binding Fc-FcγRIIIb NA1', 'Binding Fc-FcγRIIIb NA2']
     loadings = pd.DataFrame(median_loadings)
 
-    for i in range(3):
+    for i in range(12):
         ax[1].annotate(labels[i], (loadings.iloc[i, 0], loadings.iloc[i, 1]))
 
     # Add subplot labels
