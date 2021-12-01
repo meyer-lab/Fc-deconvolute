@@ -34,3 +34,5 @@ def makeFigure():
         ax[i].errorbar(glycans, measurement_glycan_matrix[i], yerr=[p33[i], p66[i]], fmt='o')
         ax[i].set_title(l[i])
         ax[i].set_xticklabels(glycans, rotation=90)
+
+    return f
