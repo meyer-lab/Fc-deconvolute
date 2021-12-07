@@ -1,4 +1,4 @@
-flist = 1 3 7 11
+flist = 1 3 11
 flistPath = $(patsubst %, output/figure%.svg, $(flist))
 
 all: $(flistPath)

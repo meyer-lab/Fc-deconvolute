@@ -1,24 +1,5 @@
 import numpy as np
 import pandas as pd
-from scipy.optimize import nnls
-from scipy.optimize import least_squares
-
-
-def ADCC_groups():
-    setGroup = np.zeros(24, dtype=np.int)
-    setGroup[[13, 18]] = 1
-    setGroup[[14, 19]] = 2
-    setGroup[[15, 20]] = 3
-    setGroup[[16, 21]] = 4
-    setGroup[[17, 22]] = 5
-    setGroup[23] = 6
-    setGroup[12] = 7
-    return setGroup
-
-
-def R1_groups():
-    setGroup = np.zeros(24, dtype=np.int)
-    return setGroup
 
 
 def load_dekkers():
@@ -77,14 +58,3 @@ def load_dekkers():
     results["bindings"] = binding
 
     return (results)
-
-
-def infer_x(A, adcc):
-    return nnls(A, adcc, maxiter=None)[0]
-
-
-def cost(pIn, X, y, setGroups, norm=False):
-    outt = X @ pIn[setGroups] - y
-    if norm:
-        outt = np.linalg.norm(outt)
-    return outt
