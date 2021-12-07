@@ -1,7 +1,6 @@
-flist = 1 3 11
-flistPath = $(patsubst %, output/figure%.svg, $(flist))
-
-all: $(flistPath)
+# Build any figure files you find
+flist = $(wildcard deconv/figures/figure*.py)
+all: $(patsubst deconv/figures/figure%.py, output/figure%.svg, $(flist))
 
 venv: venv/bin/activate
 
