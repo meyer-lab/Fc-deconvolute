@@ -1,4 +1,3 @@
-from sklearn.decomposition import PCA
 from .common import subplotLabel, getSetup
 from ..emceeDeconv import getEmceeTrace
 import pandas as pd
@@ -11,20 +10,11 @@ def makeFigure():
     ax, f = getSetup((12, 6), (1, 2))
     trace = getEmceeTrace()
     data_dekkers = load_dekkers()
-    pca = PCA()
-    pca2 = PCA()
 
     activity_scores = (trace.posterior.activity_scores[0])
     activity_loadings = (trace.posterior.activity_loadings[0])
     median_scores = np.median(activity_scores, axis=0)
     median_loadings = np.transpose(np.median(activity_loadings, axis=0))
-
-    pca.fit(median_scores)
-    pca2.fit(median_loadings)
-    pc1_var = pca.explained_variance_ratio_[0]
-    pc2_var = pca.explained_variance_ratio_[1]
-    p1var = pca2.explained_variance_ratio_[0]
-    p2var = pca2.explained_variance_ratio_[1]
 
     # set up matrix w errors: SCORES
     lowErrS = np.subtract((np.percentile(activity_scores, 50, axis=0)), (np.percentile(activity_scores, 33, axis=0)))
@@ -41,8 +31,8 @@ def makeFigure():
     ax, f = getSetup((9, 4), (1, 2))
 
     ax[0].set_title("Activity Scores")
-    ax[0].set_xlabel("Component 1 ({ratio:.2f})".format(ratio=pc1_var))
-    ax[0].set_ylabel("Component 2 ({ratio:.2f})".format(ratio=pc2_var))
+    ax[0].set_xlabel("Component 1")
+    ax[0].set_ylabel("Component 2")
     ax[0].errorbar(median_scores[:, 0], median_scores[:, 1], yerr=[lowErrS[:, 1], highErrS[:, 1]], xerr=[lowErrS[:, 0], highErrS[:, 0]], fmt='o')
     glycans = data_dekkers["glycans"]
 
@@ -51,8 +41,8 @@ def makeFigure():
         ax[0].annotate(glycans[i], (scores.iloc[i, 0], scores.iloc[i, 1]))
 
     ax[1].set_title("Activity Loadings")
-    ax[1].set_xlabel("Component 1 ({ratio:.2f})".format(ratio=p1var))
-    ax[1].set_ylabel("Component 2 ({ratio:.2f})".format(ratio=p2var))
+    ax[1].set_xlabel("Component 1")
+    ax[1].set_ylabel("Component 2")
     ax[1].errorbar(median_loadings[:, 0], median_loadings[:, 1], yerr=[lowErrL[:, 1], highErrL[:, 1]], xerr=[lowErrL[:, 0], highErrL[:, 0]], fmt='o')
     labels = [
         'ADCC FcγRIIIA158F/F',
