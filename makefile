@@ -1,7 +1,7 @@
 flist = 1 3 7 11
 flistPath = $(patsubst %, output/figure%.svg, $(flist))
 
-all: $(flistPath) output/manuscript.docx output/manuscript.html
+all: $(flistPath)
 
 venv: venv/bin/activate
 
@@ -16,20 +16,6 @@ output/figure%.svg: venv genFigure.py deconv/figures/figure%.py
 
 test: venv
 	. venv/bin/activate && pytest -s -v -x
-
-output/manuscript.md: venv manuscript/*.md
-	. venv/bin/activate && manubot process --content-directory=manuscript --output-directory=output --cache-directory=cache --skip-citations --log-level=INFO
-	git remote rm rootstock
-
-output/manuscript.html: venv output/manuscript.md $(flistPath)
-	. venv/bin/activate && pandoc --verbose \
-		--defaults=./common/templates/manubot/pandoc/common.yaml \
-		--defaults=./common/templates/manubot/pandoc/html.yaml output/manuscript.md
-
-output/manuscript.docx: venv output/manuscript.md $(flistPath)
-	. venv/bin/activate && pandoc --verbose \
-		--defaults=./common/templates/manubot/pandoc/common.yaml \
-		--defaults=./common/templates/manubot/pandoc/docx.yaml output/manuscript.md
 
 clean:
 	rm -rf output venv
