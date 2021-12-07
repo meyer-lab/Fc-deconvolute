@@ -1,41 +1,66 @@
-import numpy as np
 from .common import subplotLabel, getSetup
-from ..imports import load_tables, load_figures, infer_x
+from ..emceeDeconv import getEmceeTrace
+import pandas as pd
+import numpy as np
+from ..imports import load_dekkers
 
 
 def makeFigure():
-    # Get list of axis objects
-    ax, f = getSetup((6, 3), (1, 2))
+    #imports and formats
+    ax, f = getSetup((12, 6), (1, 2))
+    trace = getEmceeTrace()
+    data_dekkers = load_dekkers()
 
-    A_antiD, A_antiTNP, glycan_list, _ = load_tables()
-    adcc_3a, adcc_3b = load_figures()
+    activity_scores = (trace.posterior.activity_scores[0])
+    activity_loadings = (trace.posterior.activity_loadings[0])
+    median_scores = np.median(activity_scores, axis=0)
+    median_loadings = np.transpose(np.median(activity_loadings, axis=0))
 
-    mean_3a = (adcc_3a.groupby(level=0).sum()) / 4
-    mean_3b = (adcc_3b.groupby(level=0).sum()) / 4
+    # set up matrix w errors: SCORES
+    lowErrS = np.subtract((np.percentile(activity_scores, 50, axis=0)), (np.percentile(activity_scores, 33, axis=0)))
+    highErrS = np.subtract((np.percentile(activity_scores, 66, axis=0)), (np.percentile(activity_scores, 50, axis=0)))
 
-    A = np.concatenate((A_antiD, A_antiTNP), axis=0)
+    # set up matrix w errors: LOADINGS
+    ac33 = (np.percentile(activity_loadings, 33, axis=0))
+    ac66 = np.percentile(activity_loadings, 66, axis=0)
+    ac33 = np.transpose(ac33)
+    ac66 = np.transpose(ac66)
+    lowErrL = np.subtract(median_loadings, ac33)
+    highErrL = np.subtract(ac66, median_loadings)
 
-    double_3a = np.concatenate((mean_3a, mean_3a), axis=0)
-    double_3b = np.concatenate((mean_3b, mean_3b), axis=0)
+    ax, f = getSetup((9, 4), (1, 2))
 
-    glycans_3a = infer_x(A, double_3a)
-    glycans_3b = infer_x(A, double_3b)
+    ax[0].set_title("Activity Scores")
+    ax[0].set_xlabel("Component 1")
+    ax[0].set_ylabel("Component 2")
+    ax[0].errorbar(median_scores[:, 0], median_scores[:, 1], yerr=[lowErrS[:, 1], highErrS[:, 1]], xerr=[lowErrS[:, 0], highErrS[:, 0]], fmt='o')
+    glycans = data_dekkers["glycans"]
 
-    ind = np.arange(len(glycan_list))
+    scores = pd.DataFrame(median_scores)
+    for i in range(24):
+        ax[0].annotate(glycans[i], (scores.iloc[i, 0], scores.iloc[i, 1]))
 
-    ax[0].bar(ind, glycans_3a, label='Anti-D and Anti-TNP')
-    ax[0].set_title("Anti-D and Anti-TNP (Fig. 3A)")
-    ax[0].set_xlabel("Glycans")
-    ax[0].set_xticklabels(glycan_list, rotation=90)
-    ax[0].set_xticks(ind)
-    ax[0].legend()
+    ax[1].set_title("Activity Loadings")
+    ax[1].set_xlabel("Component 1")
+    ax[1].set_ylabel("Component 2")
+    ax[1].errorbar(median_loadings[:, 0], median_loadings[:, 1], yerr=[lowErrL[:, 1], highErrL[:, 1]], xerr=[lowErrL[:, 0], highErrL[:, 0]], fmt='o')
+    labels = [
+        'ADCC FcγRIIIA158F/F',
+        'ADCC FcγRIIIA158V/V',
+        'Complement Activation C1q',
+        'Complement Activation C4',
+        'Binding FcγRIa',
+        'Binding FcγRIIa 131H',
+        'Binding FcγRIIa 131R',
+        'Binding FcγRIIb/c',
+        'Binding FcγRIIIa 158F',
+        'Binding FcγRIIIa 158V',
+        'Binding Fc-FcγRIIIb NA1',
+        'Binding Fc-FcγRIIIb NA2']
+    loadings = pd.DataFrame(median_loadings)
 
-    ax[1].bar(ind, glycans_3b, label='Anti-D and Anti-TNP')
-    ax[1].set_title("Anti-D and Anti-TNP (Fig. 3B)")
-    ax[1].set_xlabel("Glycans")
-    ax[1].set_xticklabels(glycan_list, rotation=90)
-    ax[1].set_xticks(ind)
-    ax[1].legend()
+    for i in range(12):
+        ax[1].annotate(labels[i], (loadings.iloc[i, 0], loadings.iloc[i, 1]))
 
     # Add subplot labels
     subplotLabel(ax)

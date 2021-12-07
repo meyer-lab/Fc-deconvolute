@@ -1,51 +1,33 @@
 import numpy as np
-from .common import subplotLabel, getSetup
-from ..imports import load_tables, load_figures, infer_x_fixed, ADCC_groups
-
+from .common import getSetup
+from ..emceeDeconv import getEmceeTrace
+from ..imports import load_dekkers
 
 def makeFigure():
-    """Check the fit using infered x values"""
-    ax, f = getSetup((6, 3), (1, 2))
+    ax, f = getSetup((12,12), (4, 3))
 
-    A_antiD, A_antiTNP, _, mixtures = load_tables()
-    adcc_3a, adcc_3b = load_figures()
+    data_dekkers = load_dekkers()
+    glycans = data_dekkers["glycans"]
+    l = ['Binding FcγRIa', 'Binding FcγRIIa 131H', 'Binding FcγRIIa 131R', 'Binding FcγRIIb/c', 'Binding FcγRIIIa 158F', 'Binding FcγRIIIa 158V', 'Binding Fc-FcγRIIIb NA1', 'Binding Fc-FcγRIIIb NA2', 'ADCC FcγRIIIA158F/F', 'ADCC FcγRIIIA158V/V', 'Complement Activation C1q', 'Complement Activation C4']
 
-    mean_3a = (adcc_3a.groupby(level=0).sum()) / 4
-    mean_3b = (adcc_3b.groupby(level=0).sum()) / 4
+    trace = getEmceeTrace()
 
-    double_3a = np.concatenate((mean_3a, mean_3a), axis=0)
-    double_3b = np.concatenate((mean_3b, mean_3b), axis=0)
+    activity_scores = trace.posterior.activity_scores[0]
+    activity_loadings = trace.posterior.activity_loadings[0]
 
-    A = np.concatenate((A_antiD, A_antiTNP), axis=0)
+    full = np.einsum("ijk,ikl->ijl", activity_scores, activity_loadings)
 
-    setGroup = ADCC_groups()
+    qqs = np.quantile(full, (0.33, 0.5, 0.66), axis=0)
+    median = qqs[1, :, :]
+    p33 = median - qqs[0, :, :]
+    p66 = qqs[2, :, :] - median
 
-    glycans_3a = infer_x_fixed(A, double_3a, setGroup)
-    glycans_3b = infer_x_fixed(A, double_3b, setGroup)
+    print(median.shape)
+    print(len(glycans))
 
-    infer_adcc_3a = A_antiD @ glycans_3a
-    infer_adcc_3b = A_antiD @ glycans_3b
-
-    width = 0.35
-    ind = np.arange(len(mixtures))
-
-    ax[0].bar(ind - width / 2, infer_adcc_3a, width, label='Inferred ADCC')
-    ax[0].bar(ind + width / 2, mean_3a, width, label='Original ADCC')
-    ax[0].set_title("Original and Inferred ADCC (Fig. 3A)")
-    ax[0].set_xlabel("Mixtures")
-    ax[0].set_xticklabels(mixtures, rotation=90)
-    ax[0].set_xticks(ind)
-    ax[0].legend()
-
-    ax[1].bar(ind - width / 2, infer_adcc_3b, width, label='Inferred ADCC')
-    ax[1].bar(ind + width / 2, mean_3b, width, label='Original ADCC')
-    ax[1].set_title("Original and Inferred ADCC (Fig. 3B)")
-    ax[1].set_xlabel("Mixtures")
-    ax[1].set_xticklabels(mixtures, rotation=90)
-    ax[1].set_xticks(ind)
-    ax[1].legend()
-
-    # Add subplot labels
-    subplotLabel(ax)
+    for i in range(median.shape[1]):
+        ax[i].errorbar(glycans, median[:, i], yerr=[p33[:, i], p66[:, i]], fmt='o')
+        ax[i].set_title(l[i])
+        ax[i].set_xticklabels(glycans, rotation=90)
 
     return f
