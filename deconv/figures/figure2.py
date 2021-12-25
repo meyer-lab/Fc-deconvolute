@@ -1,10 +1,10 @@
 import numpy as np
-from .common import getSetup
+from .common import getSetup, subplotLabel
 from ..emceeDeconv import getEmceeTrace
 from ..imports import load_dekkers
 
 def makeFigure():
-    ax, f = getSetup((12,12), (4, 3))
+    ax, f = getSetup((7.5,7.5), (4, 3))
 
     data_dekkers = load_dekkers()
     glycans = data_dekkers["glycans"]
@@ -27,7 +27,11 @@ def makeFigure():
 
     for i in range(median.shape[1]):
         ax[i].errorbar(glycans, median[:, i], yerr=[p33[:, i], p66[:, i]], fmt='o')
-        ax[i].set_title(l[i])
-        ax[i].set_xticklabels(glycans, rotation=90)
+        ax[i].set_ylabel(l[i], size=6)
+        ax[i].set_xticklabels(glycans, rotation=90, size=6)
+        _,_,_,y2 = ax[i].axis()
+        ax[i].set_ylim([0, y2]) 
+
+    subplotLabel(ax)
 
     return f
