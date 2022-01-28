@@ -3,7 +3,6 @@ from deconv.imports import load_dekkers
 from deconv.figures.common import subplotLabel, getSetup
 import pandas as pd
 import numpy as np
-from adjustText import adjust_text
 
 
 def makeFigure():
