@@ -30,7 +30,7 @@ def makeFigure():
     ax, f = getSetup((7, 7), (2, 2))
 
     ScoreMarkers = ['^','^','^', 'o','o', 'o', 'd','d', 'D', 'x', 'x', 'X', 's', 's', 's', '+', '+','+', '1', '1', '2', '3', '3', '4']
-    ScoreColor = ['r', 'b', 'g', 'r', 'b', 'g', 'b', 'g', 'g', 'b', 'g', 'g','r', 'b', 'g', 'r', 'b', 'g', 'b', 'g' , 'g','b', 'g' , 'g']
+    ScoreColor = ['orchid', 'darkblue', 'palegreen', 'orchid', 'darkblue', 'palegreen', 'darkblue', 'palegreen', 'palegreen', 'darkblue', 'palegreen', 'palegreen','orchid', 'darkblue', 'palegreen', 'orchid', 'darkblue', 'palegreen', 'darkblue', 'palegreen' , 'palegreen','darkblue', 'palegreen' , 'palegreen']
 
     ax[0].set_title("Activity Scores")
     ax[0].set_xlabel("Component 1")
@@ -48,13 +48,13 @@ def makeFigure():
         #ax[0].annotate(glycans[i], (scores.iloc[i, 0], scores.iloc[i, 1]))
 
     LoadingMarkers = ['o','o', '^', 'd', 's', 'v', 'v', 'v', 'o', 'o', 'o', 'o']
-    LoadingColors = ['m', 'm', 'y', 'y', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c']
+    LoadingColors = ['lightcoral', 'lightcoral', 'gold', 'gold', 'mediumturquoise', 'mediumturquoise', 'mediumturquoise', 'mediumturquoise', 'mediumturquoise', 'mediumturquoise', 'mediumturquoise', 'mediumturquoise']
 
     ax[1].set_title("Activity Loadings")
     ax[1].set_xlabel("Component 1")
     ax[1].set_ylabel("Component 2")
     for i in range(12):
-        ax[1].scatter(median_loadings[i, 0], median_loadings[i, 1], marker = LoadingMarkers[i], color = LoadingColors[i] )
+        ax[1].scatter(median_loadings[i, 0], median_loadings[i, 1], marker = LoadingMarkers[i], color = LoadingColors[i], edgecolor='k' )
     ax[1].errorbar(median_loadings[:, 0], median_loadings[:, 1], yerr=[lowErrL[:, 1], highErrL[:, 1]], xerr=[lowErrL[:, 0], highErrL[:, 0]], fmt = ',', color ='k', lw = .5)
     ax[1].set_ylim(bottom = 0)
     ax[1].set_xlim(left = 0)
@@ -93,7 +93,7 @@ def makeFigure():
     ax[3].set_xlabel("Component 1")
     ax[3].set_ylabel("Component 3")
     for i in range(12):
-        ax[3].scatter(median_loadings[i, 0], median_loadings[i, 2], marker = LoadingMarkers[i], color = LoadingColors[i])
+        ax[3].scatter(median_loadings[i, 0], median_loadings[i, 2], marker = LoadingMarkers[i], color = LoadingColors[i], edgecolor='k')
     ax[3].errorbar(median_loadings[:, 0], median_loadings[:, 2], yerr=[lowErrL[:, 2], highErrL[:, 2]], xerr=[lowErrL[:, 0], highErrL[:, 0]],fmt = ',', color ='k', lw = .5)
     ax[3].set_ylim(bottom = 0)
     ax[3].set_xlim(left = 0)
