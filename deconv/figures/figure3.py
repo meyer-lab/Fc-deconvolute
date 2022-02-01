@@ -29,7 +29,7 @@ def makeFigure():
 
     ax, f = getSetup((7, 7), (2, 2))
 
-    ScoreMarkers = ['^','^','^', 'o','o', 'o', 'd','d', 'D', 'x', 'x', 'X', 's', 's', 's', '+', '+','+', '1', '1', '2', '3', '3', '4']
+    ScoreMarkers = ['^','^','^', 'o','o', 'o', 'd','d', 'D', 's', 's', 'X', 'x', 'x', 'x', '+', '+','+', '1', '1', '2', '3', '3', '4']
     ScoreColor = ['orchid', 'darkblue', 'palegreen', 'orchid', 'darkblue', 'palegreen', 'darkblue', 'palegreen', 'palegreen', 'darkblue', 'palegreen', 'palegreen','orchid', 'darkblue', 'palegreen', 'orchid', 'darkblue', 'palegreen', 'darkblue', 'palegreen' , 'palegreen','darkblue', 'palegreen' , 'palegreen']
 
     ax[0].set_title("Activity Scores")
