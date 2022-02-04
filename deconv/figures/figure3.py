@@ -36,7 +36,7 @@ def makeFigure():
     ax[0].set_xlabel("Component 1")
     ax[0].set_ylabel("Component 2")
     for i in range(24):
-        ax[0].scatter(median_scores[i, 0], median_scores[i, 1], marker = ScoreMarkers[i], color = ScoreColor[i])
+        ax[0].scatter(median_scores[i, 0], median_scores[i, 1], marker = ScoreMarkers[i], color = ScoreColor[i], edgecolor='k')
     ax[0].errorbar(median_scores[:, 0], median_scores[:, 1], yerr=[lowErrS[:, 1], highErrS[:, 1]], xerr=[lowErrS[:, 0], highErrS[:, 0]], fmt = ',', color ='k', lw = .5)
     ax[0].set_ylim(bottom = 0)
     ax[0].set_xlim(left = 0)
@@ -80,7 +80,7 @@ def makeFigure():
     ax[2].set_xlabel("Component 1")
     ax[2].set_ylabel("Component 3")
     for i in range(24):
-        ax[2].scatter(median_scores[i, 0], median_scores[i, 2], marker = ScoreMarkers[i], color = ScoreColor[i])
+        ax[2].scatter(median_scores[i, 0], median_scores[i, 2], marker = ScoreMarkers[i], color = ScoreColor[i],edgecolor='k')
     ax[2].errorbar(median_scores[:, 0], median_scores[:, 2], yerr=[lowErrS[:, 2], highErrS[:, 2]], xerr=[lowErrS[:, 0], highErrS[:, 0]],fmt = ',', color ='k', lw = .5)
     ax[2].set_ylim(bottom = 0)
     ax[2].set_xlim(left = 0)
