@@ -26,11 +26,20 @@ def makeFigure():
     print(len(glycans))
 
     for i in range(median.shape[1]):
-        ax[i].errorbar(glycans, median[:, i], yerr=[p33[:, i], p66[:, i]], fmt='o')
+        ax[i].errorbar(glycans, median[:, i], yerr=[p33[:, i], p66[:, i]], fmt='o', markersize=4)
         ax[i].set_ylabel(l[i], size=6)
         ax[i].set_xticklabels(glycans, rotation=90, size=6)
         _,_,_,y2 = ax[i].axis()
-        ax[i].set_ylim([0, y2]) 
+        if i < 4:
+            ax[i].set_ylim([0, 0.05]) 
+        elif i < 6:
+            ax[i].set_ylim([0, 1])
+        elif i < 8:
+            ax[i].set_ylim([0, 0.45])
+        elif i < 10:
+            ax[i].set_ylim([0, 1])
+        else:
+            ax[i].set_ylim([0, 5])
 
     subplotLabel(ax)
 
