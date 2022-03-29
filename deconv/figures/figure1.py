@@ -46,13 +46,15 @@ def makeFigure():
 
     l = ['ADCC FcγRIIIA158F/F', 'ADCC FcγRIIIA158V/V', 'Comp Act C1q', 'Comp Act C4', 'Binding FcγRIa', 'Binding FcγRIIa 131H', 'Binding FcγRIIa 131R', 'Binding FcγRIIb/c', 'Binding FcγRIIIa 158F', 'Binding FcγRIIIa 158V', 'Binding Fc-FcγRIIIb NA1', 'Binding Fc-FcγRIIIb NA2']
     loadings = pd.DataFrame(pca2.components_.T[:, :2], columns=['PC1', 'PC2'], index=l)
-    ax[3].scatter(loadings.iloc[:, 0], loadings.iloc[:, 1])
+    LoadingMarkers = ['o','o', '^', 'd', 's', 'v', 'v', 'v', 'o', 'o', 'o', 'o']
+    LoadingColors =['lightcoral', 'lightcoral', 'gold', 'gold', 'mediumturquoise', 'mediumturquoise', 'mediumturquoise', 'mediumturquoise', 'mediumturquoise', 'mediumturquoise', 'mediumturquoise', 'mediumturquoise']
+    for i in range(12):
+        ax[3].scatter(loadings.iloc[i, 0], loadings.iloc[i, 1], marker = LoadingMarkers[i], color = LoadingColors[i], edgecolor='k')    
+        
     ax[3].set_title("Loadings")
     ax[3].set_xlabel("Component 1 ({ratio:.0%})".format(ratio=pca2.explained_variance_ratio_[0]))
     ax[3].set_ylabel("Component 2 ({ratio:.0%})".format(ratio=pca2.explained_variance_ratio_[1]))
 
-    for i in range(12):
-        ax[3].annotate(l[i], (loadings.iloc[i, 0], loadings.iloc[i, 1]))
 
     ax[4].scatter(data_new[:, 0], data_new[:, 2])
     ax[4].set_title("Scores")
@@ -65,14 +67,12 @@ def makeFigure():
 
     l = ['ADCC FcγRIIIA158F/F', 'ADCC FcγRIIIA158V/V', 'Comp Act C1q', 'Comp Act C4', 'Binding FcγRIa', 'Binding FcγRIIa 131H', 'Binding FcγRIIa 131R', 'Binding FcγRIIb/c', 'Binding FcγRIIIa 158F', 'Binding FcγRIIIa 158V', 'Binding Fc-FcγRIIIb NA1', 'Binding Fc-FcγRIIIb NA2']
     loadings = pd.DataFrame(pca2.components_.T[:, [0,2]], columns=['PC1', 'PC3'], index=l)
-    ax[5].scatter(loadings.iloc[:, 0], loadings.iloc[:, 1])
+    for i in range(12):
+        ax[5].scatter(loadings.iloc[i, 0], loadings.iloc[i, 1],color = LoadingColors[i], marker = LoadingMarkers[i], edgecolor='k')    
     ax[5].set_title("Loadings")
     ax[5].set_xlabel("Component 1 ({ratio:.0%})".format(ratio=pca2.explained_variance_ratio_[0]))
     ax[5].set_ylabel("Component 3 ({ratio:.0%})".format(ratio=pca2.explained_variance_ratio_[2]))
 
-    for i in range(12):
-        ax[5].annotate(l[i], (loadings.iloc[i, 0], loadings.iloc[i, 1]))
-    
     # Add subplot labels
     subplotLabel(ax)
 
