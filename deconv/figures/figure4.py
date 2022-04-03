@@ -1,3 +1,4 @@
+from matplotlib import style
 from .common import subplotLabel, getSetup
 from ..emceeDeconv import getEmceeTrace
 import pandas as pd
@@ -41,7 +42,8 @@ def makeFigure():
          "No Sialic Acid", "No Sialic Acid", "1 Sialic Acid","1 Sialic Acid", "2 Sialic Acid", 
          "1 Sialic Acid","1 Sialic Acid", "2 Sialic Acid", "No Sialic Acid", "No Sialic Acid",
           "No Sialic Acid", "No Sialic Acid", "No Sialic Acid", "No Sialic Acid", "1 Sialic Acid",
-          "1 Sialic Acid", "2 Sialic Acid", "1 Sialic Acid","1 Sialic Acid", "2 Sialic Acid" ])}
+          "1 Sialic Acid", "2 Sialic Acid", "1 Sialic Acid","1 Sialic Acid", "2 Sialic Acid" ]),
+    "Sial Markers": pd.Series(['o','o','o','o','o','o','s', 's', 'v','s', 's', 'v','o','o','o','o','o','o', 's', 's', 'v','s', 's', 'v'])}
     df = pd.DataFrame(d)
     df["glycans"] = glycans
 
@@ -51,6 +53,7 @@ def makeFigure():
 
     sns.set_theme(style="whitegrid", palette="muted")
     for i in range(12):
-        ax[i] = sns.swarmplot(ax = ax[i], data=df, x="Galactosylation", y= l[i], hue = "Fucosylation")
+        #ax[i] = sns.swarmplot(ax = ax[i], data=df, x="Galactosylation", y= l[i], hue = "Bisection")
+        ax[i] = sns.scatterplot(ax = ax[i], data = df, x='Galactosylation', y=l[i], hue='Fucosylation', style = 'Bisection', markers=['v','o'])
 
     return(f)
