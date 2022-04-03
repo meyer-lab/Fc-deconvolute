@@ -26,33 +26,31 @@ def makeFigure():
     lowErrL = np.subtract(median_loadings, ac33)
     highErrL = np.subtract(ac66, median_loadings)
 
-    ax, f = getSetup((7, 10), (3, 2))
+    ax, f = getSetup((10, 7), (2, 3))
 
     ScoreMarkers = ['^','^','^', 'o','o', 'o', 'd','d', 'D', 's', 's', 'X', 'x', 'x', 'x', '+', '+','+', '1', '1', '2', '3', '3', '4']
     ScoreColor = ['orchid', 'darkblue', 'palegreen', 'orchid', 'darkblue', 'palegreen', 'darkblue', 'palegreen', 'palegreen', 'darkblue', 'palegreen', 'palegreen','orchid', 'darkblue', 'palegreen', 'orchid', 'darkblue', 'palegreen', 'darkblue', 'palegreen' , 'palegreen','darkblue', 'palegreen' , 'palegreen']
 
-    ax[2].set_title("Activity Scores")
-    ax[2].set_xlabel("Component 1")
-    ax[2].set_ylabel("Component 2")
-    ax[2].errorbar(median_scores[:, 0], median_scores[:, 1], yerr=[lowErrS[:, 1], highErrS[:, 1]], xerr=[lowErrS[:, 0], highErrS[:, 0]], fmt='o')
-
+    ax[1].set_title("Activity Scores")
+    ax[1].set_xlabel("Component 1")
+    ax[1].set_ylabel("Component 2")
     for i in range(24):
-        ax[2].scatter(median_scores[i, 0], median_scores[i, 1], marker = ScoreMarkers[i], color = ScoreColor[i], edgecolor='k')
-    ax[2].errorbar(median_scores[:, 0], median_scores[:, 1], yerr=[lowErrS[:, 1], highErrS[:, 1]], xerr=[lowErrS[:, 0], highErrS[:, 0]], fmt = ',', color ='k', lw = .5)
-    ax[2].set_ylim(bottom = 0)
-    ax[2].set_xlim(left = 0)
+        ax[1].scatter(median_scores[i, 0], median_scores[i, 1], marker = ScoreMarkers[i], color = ScoreColor[i], edgecolor='k')
+    ax[1].errorbar(median_scores[:, 0], median_scores[:, 1], yerr=[lowErrS[:, 1], highErrS[:, 1]], xerr=[lowErrS[:, 0], highErrS[:, 0]], fmt = ',', color ='k', lw = .5)
+    ax[1].set_ylim(bottom = 0)
+    ax[1].set_xlim(left = 0)
 
     LoadingMarkers = ['o','o', '^', 'd', 's', 'v', 'v', 'v', 'o', 'o', 'o', 'o']
     LoadingColors = ['lightcoral', 'lightcoral', 'gold', 'gold', 'mediumturquoise', 'mediumturquoise', 'mediumturquoise', 'mediumturquoise', 'mediumturquoise', 'mediumturquoise', 'mediumturquoise', 'mediumturquoise']
 
-    ax[3].set_title("Activity Loadings")
-    ax[3].set_xlabel("Component 1")
-    ax[3].set_ylabel("Component 2")
+    ax[2].set_title("Activity Loadings")
+    ax[2].set_xlabel("Component 1")
+    ax[2].set_ylabel("Component 2")
     for i in range(12):
-        ax[3].scatter(median_loadings[i, 0], median_loadings[i, 1], marker = LoadingMarkers[i], color = LoadingColors[i], edgecolor='k' )
-    ax[3].errorbar(median_loadings[:, 0], median_loadings[:, 1], yerr=[lowErrL[:, 1], highErrL[:, 1]], xerr=[lowErrL[:, 0], highErrL[:, 0]], fmt = ',', color ='k', lw = .5)
-    ax[3].set_ylim(bottom = 0)
-    ax[3].set_xlim(left = 0)
+        ax[2].scatter(median_loadings[i, 0], median_loadings[i, 1], marker = LoadingMarkers[i], color = LoadingColors[i], edgecolor='k' )
+    ax[2].errorbar(median_loadings[:, 0], median_loadings[:, 1], yerr=[lowErrL[:, 1], highErrL[:, 1]], xerr=[lowErrL[:, 0], highErrL[:, 0]], fmt = ',', color ='k', lw = .5)
+    ax[2].set_ylim(bottom = 0)
+    ax[2].set_xlim(left = 0)
 
 
     ax[4].set_title("Activity Scores")
