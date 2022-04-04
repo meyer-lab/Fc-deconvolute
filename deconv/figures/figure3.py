@@ -9,6 +9,7 @@ from sklearn.decomposition import PCA
 def makeFigure():
     #imports and formats
     trace = getEmceeTrace()
+    data_dekkers = load_dekkers()
 
     df = data_dekkers["profiling"]
     data = df.groupby(["index", "receptor"]).mean().reset_index()
@@ -38,80 +39,63 @@ def makeFigure():
     lowErrL = np.subtract(median_loadings, ac33.T)
     highErrL = np.subtract(ac66.T, median_loadings)
 
-    ax, f = getSetup((10, 7), (2, 3))
+    # set up color and shape markers
+    ScoreMarkers = ['^','^','^', 'o','o', 'o', 'd','d', 
+        'D', 's', 's', 'X', 'x', 'x', 'x', '+', '+','+', '1', 
+        '1', '2', '3', '3', '4']
+    ScoreColor = ['orchid', 'darkblue', 'palegreen', 'orchid', 
+        'darkblue', 'palegreen', 'darkblue', 'palegreen', 'palegreen',
+         'darkblue', 'palegreen', 'palegreen','orchid', 'darkblue', 
+         'palegreen', 'orchid', 'darkblue', 'palegreen', 'darkblue', 
+         'palegreen' , 'palegreen','darkblue', 'palegreen' , 'palegreen']
+    LoadingMarkers = ['o','o', '^', 'd', 's', 'v', 'v', 'v', 'o', 'o', 
+        'o', 'o']
+    LoadingColors = ['lightcoral', 'lightcoral', 'gold', 'gold',
+         'mediumturquoise', 'mediumturquoise', 'mediumturquoise', 
+        'mediumturquoise', 'mediumturquoise', 'mediumturquoise', 
+        'mediumturquoise', 'mediumturquoise']
 
 
-    ScoreMarkers = ['^','^','^', 'o','o', 'o', 'd','d', 'D', 's', 's', 'X', 'x', 'x', 'x', '+', '+','+', '1', '1', '2', '3', '3', '4']
-    ScoreColor = ['orchid', 'darkblue', 'palegreen', 'orchid', 'darkblue', 'palegreen', 'darkblue', 'palegreen', 'palegreen', 'darkblue', 'palegreen', 'palegreen','orchid', 'darkblue', 'palegreen', 'orchid', 'darkblue', 'palegreen', 'darkblue', 'palegreen' , 'palegreen','darkblue', 'palegreen' , 'palegreen']
+    ax, f = getSetup((7, 7), (2, 2))
+
     ax[0].set_title("Activity Scores")
     ax[0].set_xlabel("Component 1")
     ax[0].set_ylabel("Component 2")
-    #ax[0].set_ylim([0, 1.5])
-    #ax[0].set_xlim([0, 7])
-    ax[0].errorbar(median_scores[:, 0], median_scores[:, 1], yerr=[lowErrS[:, 1], highErrS[:, 1]], xerr=[lowErrS[:, 0], highErrS[:, 0]], fmt='o')
-    glycans = data_dekkers["glycans"]
+    ax[0].errorbar(median_scores[:, 0], median_scores[:, 1],
+         yerr=[lowErrS[:, 1], highErrS[:, 1]], xerr=[lowErrS[:, 0], 
+         highErrS[:, 0]],  fmt = ',', color ='k', lw = .5)
+    for i in range(24):
+        ax[0].scatter(median_scores[i, 0], median_scores[i, 1], marker = ScoreMarkers[i], color = ScoreColor[i], edgecolor='k')
     
-    ax[1].set_title("Activity Scores")
+    ax[1].set_title("Activity Loadings")
     ax[1].set_xlabel("Component 1")
     ax[1].set_ylabel("Component 2")
+    ax[1].errorbar(median_loadings[:, 0], median_loadings[:, 1],
+        yerr=[lowErrL[:, 1], highErrL[:, 1]], xerr=[lowErrL[:, 0], 
+        highErrL[:, 0]], fmt=',', color = 'k', lw = .5)
 
-    for i in range(24):
-        ax[1].scatter(median_scores[i, 0], median_scores[i, 1], marker = ScoreMarkers[i], color = ScoreColor[i], edgecolor='k')
-    ax[1].errorbar(median_scores[:, 0], median_scores[:, 1], yerr=[lowErrS[:, 1], highErrS[:, 1]], xerr=[lowErrS[:, 0], highErrS[:, 0]], fmt = ',', color ='k', lw = .5)
-    ax[1].set_ylim(bottom = 0)
-    ax[1].set_xlim(left = 0)
-    
-    #ax[1].set_ylim([0, 1])
-    #ax[1].set_xlim([0, 1])
-    ax[1].errorbar(median_loadings[:, 0], median_loadings[:, 1], yerr=[lowErrL[:, 1], highErrL[:, 1]], xerr=[lowErrL[:, 0], highErrL[:, 0]], fmt='o')
-    labels = data2.columns
-    loadings = pd.DataFrame(median_loadings)
-
-    LoadingMarkers = ['o','o', '^', 'd', 's', 'v', 'v', 'v', 'o', 'o', 'o', 'o']
-    LoadingColors = ['lightcoral', 'lightcoral', 'gold', 'gold', 'mediumturquoise', 'mediumturquoise', 'mediumturquoise', 'mediumturquoise', 'mediumturquoise', 'mediumturquoise', 'mediumturquoise', 'mediumturquoise']
-
-    ax[2].set_title("Activity Loadings")
-    ax[2].set_xlabel("Component 1")
-    ax[2].set_ylabel("Component 2")
     for i in range(12):
-        ax[2].scatter(median_loadings[i, 0], median_loadings[i, 1], marker = LoadingMarkers[i], color = LoadingColors[i], edgecolor='k' )
-    ax[2].errorbar(median_loadings[:, 0], median_loadings[:, 1], yerr=[lowErrL[:, 1], highErrL[:, 1]], xerr=[lowErrL[:, 0], highErrL[:, 0]], fmt = ',', color ='k', lw = .5)
-    ax[2].set_ylim(bottom = 0)
-    ax[2].set_xlim(left = 0)
+        ax[1].scatter(median_loadings[i, 0], median_loadings[i, 1], marker = LoadingMarkers[i], color = LoadingColors[i], edgecolor='k')
 
+    ax[2].set_title("Activity Scores")
+    ax[2].set_xlabel("Component 1")
     ax[2].set_ylabel("Component 3")
-    #ax[2].set_ylim([0, 5])
-    #ax[2].set_xlim([0, 7])
-    ax[2].errorbar(median_scores[:, 0], median_scores[:, 2], yerr=[lowErrS[:, 2], highErrS[:, 2]], xerr=[lowErrS[:, 0], highErrS[:, 0]], fmt='o')
+    ax[2].errorbar(median_scores[:, 0], median_scores[:, 2], 
+        yerr=[lowErrS[:, 2], highErrS[:, 2]], xerr=[lowErrS[:, 0], 
+        highErrS[:, 0]], fmt=',', color = 'k', lw = .5)
 
-    scores = pd.DataFrame(median_scores)
     for i in range(24):
-        ax[2].annotate(glycans[i], (scores.iloc[i, 0], scores.iloc[i, 2]))
+        ax[2].scatter(median_scores[i, 0], median_scores[i, 2], marker = ScoreMarkers[i], color = ScoreColor[i], edgecolor='k')
 
     ax[3].set_title("Activity Loadings")
     ax[3].set_xlabel("Component 1")
     ax[3].set_ylabel("Component 3")
-    #ax[3].set_ylim([0, 0.3])
-    #ax[3].set_xlim([0, 1])
-    ax[3].errorbar(median_loadings[:, 0], median_loadings[:, 2], yerr=[lowErrL[:, 2], highErrL[:, 2]], xerr=[lowErrL[:, 0], highErrL[:, 0]], fmt='o')
+    ax[3].errorbar(median_loadings[:, 0], median_loadings[:, 2], 
+        yerr=[lowErrL[:, 2], highErrL[:, 2]], xerr=[lowErrL[:, 0], 
+        highErrL[:, 0]], fmt=',', color = 'k', lw = .5)
 
-    ax[4].set_title("Activity Scores")
-    ax[4].set_xlabel("Component 1")
-    ax[4].set_ylabel("Component 3")
-    for i in range(24):
-        ax[4].scatter(median_scores[i, 0], median_scores[i, 2], marker = ScoreMarkers[i], color = ScoreColor[i],edgecolor='k')
-    ax[4].errorbar(median_scores[:, 0], median_scores[:, 2], yerr=[lowErrS[:, 2], highErrS[:, 2]], xerr=[lowErrS[:, 0], highErrS[:, 0]],fmt = ',', color ='k', lw = .5)
-    ax[4].set_ylim(bottom = 0)
-    ax[4].set_xlim(left = 0)
-
-    ax[5].set_title("Activity Loadings")
-    ax[5].set_xlabel("Component 1")
-    ax[5].set_ylabel("Component 3")
     for i in range(12):
-        ax[5].scatter(median_loadings[i, 0], median_loadings[i, 2], marker = LoadingMarkers[i], color = LoadingColors[i], edgecolor='k')
-    ax[5].errorbar(median_loadings[:, 0], median_loadings[:, 2], yerr=[lowErrL[:, 2], highErrL[:, 2]], xerr=[lowErrL[:, 0], highErrL[:, 0]],fmt = ',', color ='k', lw = .5)
-    ax[5].set_ylim(bottom = 0)
-    ax[5].set_xlim(left = 0)
+        ax[3].scatter(median_loadings[i, 0], median_loadings[i, 2], marker = LoadingMarkers[i], color = LoadingColors[i], edgecolor='k')
 
     # Add subplot labels
     subplotLabel(ax)

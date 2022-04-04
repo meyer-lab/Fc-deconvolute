@@ -7,20 +7,23 @@ from ..imports import load_dekkers
 import seaborn as sns
 
 def makeFigure():
-    ax, f = getSetup((15,10), (4,3))
+    ax, f = getSetup((15, 15), (4, 3))
 
-    #imports and formats
-    trace = getEmceeTrace()
     data_dekkers = load_dekkers()
-    l = ['Binding FcγRIa', 'Binding FcγRIIa 131H', 'Binding FcγRIIa 131R', 'Binding FcγRIIb/c', 'Binding FcγRIIIa 158F', 'Binding FcγRIIIa 158V', 'Binding Fc-FcγRIIIb NA1', 'Binding Fc-FcγRIIIb NA2', 'ADCC FcγRIIIA158F/F', 'ADCC FcγRIIIA158V/V', 'Complement Activation C1q', 'Complement Activation C4']
-
-    activity_scores = trace.posterior.activity_scores[0]
-    activity_loadings = trace.posterior.activity_loadings[0]
-    full = np.einsum("ijk,ikl->ijl", activity_scores, activity_loadings)
-
-    qqs = np.quantile(full, (0.33, 0.5, 0.66), axis=0)
-    median = qqs[1, :, :]
     glycans = data_dekkers["glycans"]
+
+    df = data_dekkers["profiling"]
+    data = df.groupby(["index", "receptor"]).mean().reset_index()
+    data2 = data.pivot(index="index", columns="receptor", values="binding")
+
+    trace = getEmceeTrace()
+
+    activity = trace.posterior.activity[0]
+
+    qqs = np.quantile(activity, (0.025, 0.5, 0.975), axis=0)
+    median = qqs[1, :, :]
+
+    l = data2.columns
 
     d = {
     "Fucosylation": pd.Series(['Fucosylated','Fucosylated','Fucosylated',
@@ -53,7 +56,6 @@ def makeFigure():
 
     sns.set_theme(style="whitegrid", palette="muted")
     for i in range(12):
-        #ax[i] = sns.swarmplot(ax = ax[i], data=df, x="Galactosylation", y= l[i], hue = "Bisection")
-        ax[i] = sns.scatterplot(ax = ax[i], data = df, x='Galactosylation', y=l[i], hue='Fucosylation', style = 'Bisection', markers=['v','o'])
+        ax[i] = sns.scatterplot(ax = ax[i], data = df, x='Galactosylation', y=l[i], hue='Sialylation', style = 'Fucosylation', markers=['v','o'])
 
     return(f)
