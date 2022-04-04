@@ -27,9 +27,6 @@ def makeFigure():
     p33 = median - qqs[0, :, :]
     p66 = qqs[2, :, :] - median
 
-    print(median.shape)
-    print(len(glycans))
-
     for i in range(median.shape[1]):
         ax[i].errorbar(glycans, median[:, i], yerr=[p33[:, i], p66[:, i]], fmt='o')
         ax[i].set_ylabel(data2.columns[i], size=6)
