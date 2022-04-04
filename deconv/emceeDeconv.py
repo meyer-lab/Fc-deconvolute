@@ -4,7 +4,7 @@ from .imports import load_dekkers
 import pymc3 as pm
 
 
-def getEmceeTrace():
+def getEmceeTrace(n_comp=4):
 
     data_dekkers = load_dekkers()
 
@@ -27,8 +27,8 @@ def getEmceeTrace():
     M = pm.Model()
 
     with M:
-        x_x = pm.Lognormal("activity_scores", sigma=1.0, shape=(24, 3))
-        x_y = pm.Lognormal("activity_loadings", sigma=1.0, shape=(3, 12))
+        x_x = pm.Lognormal("activity_scores", sigma=1.0, shape=(24, n_comp))
+        x_y = pm.Lognormal("activity_loadings", sigma=1.0, shape=(n_comp, 12))
 
         pm.Normal("scale", mu=1.0, sigma=0.1, observed=T.sum(x_y, axis=1))  # Enforce unit scaled loadings
 
