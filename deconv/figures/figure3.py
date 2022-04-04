@@ -3,6 +3,7 @@ from ..emceeDeconv import getEmceeTrace
 import pandas as pd
 import numpy as np
 from ..imports import load_dekkers
+from sklearn.decomposition import PCA
 
 
 def makeFigure():
