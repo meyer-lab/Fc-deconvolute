@@ -1,28 +1,16 @@
-import numpy as np
 from theano import tensor as T
 from .imports import load_dekkers
 import pymc3 as pm
 
 
 def getEmceeTrace():
-
     data_dekkers = load_dekkers()
 
     A_antiD = data_dekkers["antiD"]
 
-    mean_binding = list(data_dekkers["bindings"])
-    mean_binding = np.array([m.groupby(level=0).mean() for m in mean_binding])
-
-    mean_3a = data_dekkers["meanADCC3a"]
-    mean_3b = data_dekkers["meanADCC3b"]
-
-    mean_ADCC = np.array([mean_3a, mean_3b])
-
-    mean_4a = data_dekkers["meanCompAct4a"]
-    mean_4b = data_dekkers["meanCompAct4b"]
-    mean_Comp = np.array([mean_4a, mean_4b])
-
-    res = np.concatenate((mean_binding, mean_ADCC, mean_Comp))
+    df = data_dekkers["profiling"]
+    data = df.groupby(["index", "receptor"]).mean().reset_index()
+    res = data.pivot(index="receptor", columns="index", values="binding").values
 
     M = pm.Model()
 
