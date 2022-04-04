@@ -36,6 +36,6 @@ def getEmceeTrace():
         sd = T.minimum(T.std(residuals), 1.0)  # Add bounds for the stderr to help force the fitting solution
         pm.Normal("fit", sigma=sd, observed=residuals)
 
-    trace = pm.sample(2000, init="advi+adapt_diag", model=M, return_inferencedata=True, target_accept=0.9, chains=1)
+    trace = pm.sample(2000, init="advi+adapt_diag", model=M, return_inferencedata=True, target_accept=0.95, chains=1)
 
     return trace
