@@ -17,7 +17,7 @@ def getEmceeTrace():
     with M:
         activity = pm.Lognormal("activity", sigma=1.0, shape=(24, 12))
         predict = T.dot(A_antiD, activity).T
-        pm.Lognormal("fit", mu=predict, sigma=0.5, observed=res)
+        pm.Lognormal("fit", mu=predict, sigma=0.2, observed=res)
 
-    trace = pm.sample(2000, model=M, return_inferencedata=True, target_accept=0.95)
+    trace = pm.sample(200, model=M, return_inferencedata=True, target_accept=0.95)
     return trace

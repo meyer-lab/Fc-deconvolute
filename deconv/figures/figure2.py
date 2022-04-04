@@ -19,7 +19,7 @@ def makeFigure():
 
     activity = trace.posterior.activity[0]
 
-    qqs = np.quantile(activity, (0.33, 0.5, 0.66), axis=0)
+    qqs = np.quantile(activity, (0.025, 0.5, 0.975), axis=0)
     median = qqs[1, :, :]
     p33 = median - qqs[0, :, :]
     p66 = qqs[2, :, :] - median
