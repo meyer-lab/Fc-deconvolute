@@ -10,7 +10,7 @@ def getEmceeTrace():
 
     df = data_dekkers["profiling"]
     data = df.groupby(["index", "receptor"]).mean().reset_index()
-    res = data.pivot(index="index", columns="receptor", values="binding")
+    res = data.pivot(index="receptor", columns="index", values="binding").values
 
     M = pm.Model()
 

@@ -31,7 +31,7 @@ def makeFigure():
 
     mixtures = data_dekkers["mixtures"]
     for i in range(20):
-        ax[2].annotate(mixtures[i], (data_new[i,0], data_new[i,1]))
+        ax[2].annotate(mixtures[i], (data_new[i, 0], data_new[i, 1]))
 
     loadings = pd.DataFrame(pca2.components_.T[:, :2], columns=['PC1', 'PC2'], index=data2.columns)
     ax[3].scatter(loadings.iloc[:, 0], loadings.iloc[:, 1])
@@ -49,9 +49,9 @@ def makeFigure():
 
     mixtures = data_dekkers["mixtures"]
     for i in range(20):
-        ax[4].annotate(mixtures[i], (data_new[i,0], data_new[i,2]))
+        ax[4].annotate(mixtures[i], (data_new[i, 0], data_new[i, 2]))
 
-    loadings = pd.DataFrame(pca2.components_.T[:, [0,2]], columns=['PC1', 'PC3'], index=data2.columns)
+    loadings = pd.DataFrame(pca2.components_.T[:, [0, 2]], columns=['PC1', 'PC3'], index=data2.columns)
     ax[5].scatter(loadings.iloc[:, 0], loadings.iloc[:, 1])
     ax[5].set_title("Loadings")
     ax[5].set_xlabel("Component 1 ({ratio:.0%})".format(ratio=pca2.explained_variance_ratio_[0]))
@@ -59,7 +59,7 @@ def makeFigure():
 
     for i in range(12):
         ax[5].annotate(data2.columns[i], (loadings.iloc[i, 0], loadings.iloc[i, 1]))
-    
+
     # Add subplot labels
     subplotLabel(ax)
 
