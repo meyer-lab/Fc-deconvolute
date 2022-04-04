@@ -17,12 +17,9 @@ def makeFigure():
 
     trace = getEmceeTrace()
 
-    activity_scores = trace.posterior.activity_scores[0]
-    activity_loadings = trace.posterior.activity_loadings[0]
+    activity = trace.posterior.activity[0]
 
-    full = np.einsum("ijk,ikl->ijl", activity_scores, activity_loadings)
-
-    qqs = np.quantile(full, (0.33, 0.5, 0.66), axis=0)
+    qqs = np.quantile(activity, (0.025, 0.5, 0.975), axis=0)
     median = qqs[1, :, :]
     p33 = median - qqs[0, :, :]
     p66 = qqs[2, :, :] - median

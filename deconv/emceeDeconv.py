@@ -15,15 +15,9 @@ def getEmceeTrace():
     M = pm.Model()
 
     with M:
-        x_x = pm.Lognormal("activity_scores", sigma=1.0, shape=(24, 3))
-        x_y = pm.Lognormal("activity_loadings", sigma=1.0, shape=(3, 12))
+        activity = pm.Lognormal("activity", sigma=1.0, shape=(24, 12))
+        predict = T.dot(A_antiD, activity).T
+        pm.Lognormal("fit", mu=predict, sigma=0.2, observed=res)
 
-        pm.Normal("scale", mu=1.0, sigma=0.1, observed=T.sum(x_y, axis=1))  # Enforce unit scaled loadings
-
-        residuals = res - T.dot(T.dot(A_antiD, x_x), x_y).T
-        sd = T.minimum(T.std(residuals), 1.0)  # Add bounds for the stderr to help force the fitting solution
-        pm.Normal("fit", sigma=sd, observed=residuals)
-
-    trace = pm.sample(2000, init="advi+adapt_diag", model=M, return_inferencedata=True, target_accept=0.95, chains=None, cores=4)
-
+    trace = pm.sample(200, model=M, return_inferencedata=True, target_accept=0.95)
     return trace
