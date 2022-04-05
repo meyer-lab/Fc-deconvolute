@@ -29,7 +29,6 @@ def makeFigure():
         ax[i].set_ylabel(data2.columns[i], size=6)
         ax[i].xaxis.set_major_locator(mticker.FixedLocator(ax[i].get_xticks()))
         ax[i].set_xticklabels(glycans, rotation=90, size=6)
-
         _, _, _, y2 = ax[i].axis()
         ax[i].set_ylim([0, y2])
 
