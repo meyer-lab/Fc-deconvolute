@@ -1,20 +1,61 @@
-from deconv.imports import load_dekkers
-from deconv.figures.common import subplotLabel, getSetup
+from matplotlib import style
+from .common import subplotLabel, getSetup
+from ..emceeDeconv import getEmceeTrace
+import pandas as pd
 import numpy as np
+from ..imports import load_dekkers
 import seaborn as sns
 
 def makeFigure():
-    ax, f = getSetup((7, 5), (1,1))
+    ax, f = getSetup((15, 15), (4, 3))
 
     data_dekkers = load_dekkers()
-    antiD = data_dekkers["antiD"]
     glycans = data_dekkers["glycans"]
-    mixtures = data_dekkers["mixtures"]
 
-    ax[0] = sns.heatmap(antiD, linewidth=0.5, xticklabels=glycans, yticklabels=mixtures)
-    ax[0].collections[0].colorbar.set_label("Relative Abundance of Glycopeptides")
+    df = data_dekkers["profiling"]
+    data = df.groupby(["index", "receptor"]).mean().reset_index()
+    data2 = data.pivot(index="index", columns="receptor", values="binding")
 
-    # Add subplot labels
-    subplotLabel(ax)
+    trace = getEmceeTrace()
 
-    return f
+    activity = trace.posterior.activity[0]
+
+    qqs = np.quantile(activity, (0.025, 0.5, 0.975), axis=0)
+    median = qqs[1, :, :]
+
+    l = data2.columns
+
+    d = {
+    "Fucosylation": pd.Series(['Fucosylated','Fucosylated','Fucosylated',
+        'Fucosylated','Fucosylated','Fucosylated','Fucosylated','Fucosylated',
+        'Fucosylated','Fucosylated','Fucosylated','Fucosylated',"Afucosylated",
+        "Afucosylated","Afucosylated","Afucosylated","Afucosylated","Afucosylated",
+        "Afucosylated","Afucosylated","Afucosylated","Afucosylated","Afucosylated",
+        "Afucosylated",]),
+    "Galactosylation": pd.Series(["No Galactose","1 Galactose","2 Galactose","No Galactose",
+        "1 Galactose","2 Galactose","1 Galactose","2 Galactose","2 Galactose","1 Galactose",
+        "2 Galactose","2 Galactose","No Galactose","1 Galactose","2 Galactose","No Galactose",
+        "1 Galactose","2 Galactose","1 Galactose","2 Galactose","2 Galactose","1 Galactose",
+        "2 Galactose","2 Galactose"]),
+    "Bisection": pd.Series(["None", "None", "None", "Bisection", "Bisection", "Bisection", 
+        "None", "None", "None", "Bisection", "Bisection", "Bisection", "None", "None", "None", 
+         "Bisection", "Bisection", "Bisection", "None", "None", "None","Bisection", "Bisection",
+          "Bisection"]),
+    "Sialylation": pd.Series(["No Sialic Acid", "No Sialic Acid", "No Sialic Acid", "No Sialic Acid",
+         "No Sialic Acid", "No Sialic Acid", "1 Sialic Acid","1 Sialic Acid", "2 Sialic Acid", 
+         "1 Sialic Acid","1 Sialic Acid", "2 Sialic Acid", "No Sialic Acid", "No Sialic Acid",
+          "No Sialic Acid", "No Sialic Acid", "No Sialic Acid", "No Sialic Acid", "1 Sialic Acid",
+          "1 Sialic Acid", "2 Sialic Acid", "1 Sialic Acid","1 Sialic Acid", "2 Sialic Acid" ]),
+    "Sial Markers": pd.Series(['o','o','o','o','o','o','s', 's', 'v','s', 's', 'v','o','o','o','o','o','o', 's', 's', 'v','s', 's', 'v'])}
+    df = pd.DataFrame(d)
+    df["glycans"] = glycans
+
+    for i in range(12):
+        header = '{}'.format(l[i])
+        df[header] = median[:,i]
+
+    sns.set_theme(style="whitegrid", palette="muted")
+    for i in range(12):
+        ax[i] = sns.scatterplot(ax = ax[i], data = df, x='Galactosylation', y=l[i], hue='Sialylation', style = 'Fucosylation', markers=['v','o'])
+
+    return(f)

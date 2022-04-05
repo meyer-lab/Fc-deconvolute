@@ -9,11 +9,12 @@ def makeFigure():
     data_dekkers = load_dekkers()
     antiD = data_dekkers["antiD"]
     glycans = data_dekkers["glycans"]
-    mixtures = data_dekkers["mixtures"]
 
-    ax[0] = sns.heatmap(antiD, linewidth=0.5, xticklabels=glycans, yticklabels=mixtures)
-    ax[0].collections[0].colorbar.set_label("Relative Abundance of Glycopeptides")
-
+    corr = np.corrcoef(np.transpose(antiD))
+    mask = np.triu(np.ones_like(corr, dtype=bool))
+    cmap = sns.diverging_palette(230, 20, as_cmap=True)
+    ax[0] = sns.heatmap(corr, mask=mask, vmax=.3, center=0, square=True, cmap = cmap, linewidths=.5, cbar_kws={"shrink": .5}, xticklabels=glycans, yticklabels=glycans)
+    
     # Add subplot labels
     subplotLabel(ax)
 
