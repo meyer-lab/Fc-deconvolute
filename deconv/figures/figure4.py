@@ -56,6 +56,6 @@ def makeFigure():
 
     sns.set_theme(style="whitegrid", palette="muted")
     for i in range(12):
-        ax[i] = sns.scatterplot(ax = ax[i], data = df, x='Galactosylation', y=l[i], hue='Sialylation', style = 'Fucosylation', markers=['v','o'])
+        ax[i] = sns.scatterplot(ax = ax[i], data = df, x='Galactosylation', y=l[i], hue='Sialylation', style = 'Fucosylation', markers=['v','o'], legend = False)
 
     return(f)

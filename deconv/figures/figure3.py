@@ -48,12 +48,12 @@ def makeFigure():
          'darkblue', 'palegreen', 'palegreen','orchid', 'darkblue', 
          'palegreen', 'orchid', 'darkblue', 'palegreen', 'darkblue', 
          'palegreen' , 'palegreen','darkblue', 'palegreen' , 'palegreen']
-    LoadingMarkers = ['o','o', '^', 'd', 's', 'v', 'v', 'v', 'o', 'o', 
-        'o', 'o']
-    LoadingColors = ['lightcoral', 'lightcoral', 'gold', 'gold',
-         'mediumturquoise', 'mediumturquoise', 'mediumturquoise', 
+    LoadingMarkers = ['o','o', 'o', 'o', 'o', 'o', 'v', 
+        'v', 'v', 's', '^', 'd']
+    LoadingColors =['lightcoral', 'lightcoral',  
         'mediumturquoise', 'mediumturquoise', 'mediumturquoise', 
-        'mediumturquoise', 'mediumturquoise']
+        'mediumturquoise', 'mediumturquoise', 'mediumturquoise', 
+        'mediumturquoise', 'mediumturquoise','gold', 'gold']
 
 
     ax, f = getSetup((7, 7), (2, 2))

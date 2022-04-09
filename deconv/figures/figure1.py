@@ -7,12 +7,12 @@ import numpy as np
 
 def makeFigure():
     # set loadings marker color and shape
-    LoadingMarkers = ['o','o', '^', 'd', 's', 'v', 
-        'v', 'v', 'o', 'o', 'o', 'o']
-    LoadingColors =['lightcoral', 'lightcoral', 'gold', 'gold', 
+    LoadingMarkers = ['o','o', 'o', 'o', 'o', 'o', 'v', 
+        'v', 'v', 's', '^', 'd']
+    LoadingColors =['lightcoral', 'lightcoral',  
         'mediumturquoise', 'mediumturquoise', 'mediumturquoise', 
         'mediumturquoise', 'mediumturquoise', 'mediumturquoise', 
-        'mediumturquoise', 'mediumturquoise']
+        'mediumturquoise', 'mediumturquoise','gold', 'gold']
 
     ax, f = getSetup((14, 7), (2, 4))
 
@@ -50,22 +50,22 @@ def makeFigure():
     for i in range(12):
         ax[3].scatter(loadings.iloc[i, 0], loadings.iloc[i, 1], marker = LoadingMarkers[i], color = LoadingColors[i], edgecolor='k')
 
-    ax[5].scatter(data_new[:, 0], data_new[:, 2])
-    ax[5].set_title("Scores")
-    ax[5].set_xlabel("Component 1 ({ratio:.0%})".format(ratio=pca2.explained_variance_ratio_[0]))
-    ax[5].set_ylabel("Component 3 ({ratio:.0%})".format(ratio=pca2.explained_variance_ratio_[2]))
-
-    mixtures = data_dekkers["mixtures"]
-    for i in range(20):
-        ax[5].annotate(mixtures[i], (data_new[i, 0], data_new[i, 2]))
-
-    loadings = pd.DataFrame(pca2.components_.T[:, [0, 2]], columns=['PC1', 'PC3'], index=data2.columns)
-    ax[6].set_title("Loadings")
+    ax[6].scatter(data_new[:, 0], data_new[:, 2])
+    ax[6].set_title("Scores")
     ax[6].set_xlabel("Component 1 ({ratio:.0%})".format(ratio=pca2.explained_variance_ratio_[0]))
     ax[6].set_ylabel("Component 3 ({ratio:.0%})".format(ratio=pca2.explained_variance_ratio_[2]))
 
+    mixtures = data_dekkers["mixtures"]
+    for i in range(20):
+        ax[6].annotate(mixtures[i], (data_new[i, 0], data_new[i, 2]))
+
+    loadings = pd.DataFrame(pca2.components_.T[:, [0, 2]], columns=['PC1', 'PC3'], index=data2.columns)
+    ax[7].set_title("Loadings")
+    ax[7].set_xlabel("Component 1 ({ratio:.0%})".format(ratio=pca2.explained_variance_ratio_[0]))
+    ax[7].set_ylabel("Component 3 ({ratio:.0%})".format(ratio=pca2.explained_variance_ratio_[2]))
+
     for i in range(12):
-        ax[6].scatter(loadings.iloc[i, 0], loadings.iloc[i, 1], marker = LoadingMarkers[i], color = LoadingColors[i], edgecolor='k')
+        ax[7].scatter(loadings.iloc[i, 0], loadings.iloc[i, 1], marker = LoadingMarkers[i], color = LoadingColors[i], edgecolor='k')
 
     # Add subplot labels
     subplotLabel(ax)
