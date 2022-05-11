@@ -1,7 +1,7 @@
 
 from .imports import load_dekkers
-import pymc3 as pm
-from theano.tensor import dot
+import pymc as pm
+from aesara.tensor import dot
 
 
 def getEmceeTrace():
@@ -20,5 +20,5 @@ def getEmceeTrace():
         predict = dot(A_antiD, activity).T
         pm.Lognormal("fit", mu=predict, sigma=0.2, observed=res)
 
-    trace = pm.sample(200, model=M, return_inferencedata=True, target_accept=0.95)
+    trace = pm.sample(500, tune=5000, model=M, return_inferencedata=True, target_accept=0.95)
     return trace

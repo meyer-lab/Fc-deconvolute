@@ -1,5 +1,4 @@
-from matplotlib import style
-from .common import subplotLabel, getSetup
+from .common import getSetup
 from ..emceeDeconv import getEmceeTrace
 import pandas as pd
 import numpy as np

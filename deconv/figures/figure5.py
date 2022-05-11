@@ -1,6 +1,5 @@
 from deconv.imports import load_dekkers
 from deconv.figures.common import subplotLabel, getSetup
-import numpy as np
 import seaborn as sns
 
 def makeFigure():
