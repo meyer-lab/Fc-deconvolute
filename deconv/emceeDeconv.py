@@ -10,7 +10,18 @@ def getEmceeTrace():
     A_antiD = data_dekkers["antiD"]
 
     df = data_dekkers["profiling"]
+    effector_responses = df["receptor"].unique()
+
+    # normalization
+    for res in effector_responses:
+        for i in range(1,21):
+            mask = (df["receptor"] == res) & (df["index"] == i)
+            df1 = df.loc[mask]
+            df1["binding"] /= df1["binding"].std()
+            df.loc[mask] = df1
+
     data = df.groupby(["index", "receptor"]).mean().reset_index()
+
     res = data.pivot(index="receptor", columns="index", values="binding").values
 
     M = pm.Model()
