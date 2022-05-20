@@ -1,5 +1,5 @@
-import numpy as np
 import pandas as pd
+from sklearn.preprocessing import scale
 
 
 def load_dekkers(mean=True):
@@ -7,7 +7,7 @@ def load_dekkers(mean=True):
 
     # anti-D
     antiD = pd.read_csv("./deconv/data/anti-D.csv")
-    results["antiD"] = antiD.iloc[:, 7:].values
+    results["antiD"] = antiD.iloc[:, 7:].values / 100.0
     results["glycans"] = list(antiD.columns.values[7:])
     results["mixtures"] = antiD.iloc[:, 0]
 
@@ -15,10 +15,9 @@ def load_dekkers(mean=True):
     profiling = pd.read_csv("./deconv/data/dekkers.csv")
 
     if mean:
-        profilingG = profiling.groupby(["index", "receptor"]).mean()
-        profilingG["binding"] = profilingG.transform(lambda x: x / np.std(x))  # Dividing by std per experiement
-        profiling = profilingG.reset_index()
+        profiling = profiling.groupby(["index", "receptor"]).mean().reset_index()
         profiling = profiling.pivot(index="receptor", columns="index", values="binding")
+        scale(profiling, with_mean=False, copy=False, axis=1)
 
     results["profiling"] = profiling
     return results
