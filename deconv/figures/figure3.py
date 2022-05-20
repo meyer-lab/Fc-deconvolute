@@ -63,7 +63,7 @@ def makeFigure():
                    mpatches.Patch(facecolor = 'mediumturquoise', label = 'Binding')]
 
 
-    ax, f = getSetup((7, 4), (1, 2))
+    ax, f = getSetup((7, 7), (2, 2))
 
     ax[0].set_title("Activity Scores")
     ax[0].set_xlabel("Component 1")
@@ -92,6 +92,26 @@ def makeFigure():
 
     for i in range(12):
         ax[1].scatter(median_loadings[i, 0], median_loadings[i, 1], marker = LoadingMarkers[i], color = LoadingColors[i], edgecolor='k')
+
+    ax[2].set_title("Activity Scores")
+    ax[2].set_xlabel("Component 1")
+    ax[2].set_ylabel("Component 3")
+    ax[2].errorbar(median_scores[:, 0], median_scores[:, 2], 
+        yerr=[lowErrS[:, 2], highErrS[:, 2]], xerr=[lowErrS[:, 0], 
+        highErrS[:, 0]], fmt=',', color = 'k', lw = .25)
+
+    for i in range(24):
+        ax[2].scatter(median_scores[i, 0], median_scores[i, 2], marker = ScoreMarkers[i], color = ScoreColor[i], edgecolor='k')
+
+    ax[3].set_title("Activity Loadings")
+    ax[3].set_xlabel("Component 1")
+    ax[3].set_ylabel("Component 3")
+    ax[3].errorbar(median_loadings[:, 0], median_loadings[:, 2], 
+        yerr=[lowErrL[:, 2], highErrL[:, 2]], xerr=[lowErrL[:, 0], 
+        highErrL[:, 0]], fmt=',', color = 'k', lw = .25)
+
+    for i in range(12):
+        ax[3].scatter(median_loadings[i, 0], median_loadings[i, 2], marker = LoadingMarkers[i], color = LoadingColors[i], edgecolor='k')
 
     # Add subplot labels
     subplotLabel(ax)
