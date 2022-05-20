@@ -23,7 +23,8 @@ def makeFigure():
     p66 = qqs[2, :, :] - median
 
     for i in range(median.shape[1]):
-        ax[i].errorbar(glycans, median[:, i], yerr=[p33[:, i], p66[:, i]], fmt='o', markersize = 5)
+        ax[i].errorbar(glycans, median[:, i], yerr=[p33[:, i], p66[:, i]], fmt='none', ecolor = ['dodgerblue','dodgerblue','dodgerblue','dodgerblue','dodgerblue','dodgerblue','dodgerblue','dodgerblue','dodgerblue','dodgerblue','dodgerblue','dodgerblue', 'salmon', 'salmon','salmon','salmon','salmon','salmon','salmon','salmon','salmon','salmon','salmon','salmon'])
+        ax[i].scatter(glycans, median[:, i],marker ='o', color = ['dodgerblue','dodgerblue','dodgerblue','dodgerblue','dodgerblue','dodgerblue','dodgerblue','dodgerblue','dodgerblue','dodgerblue','dodgerblue','dodgerblue', 'salmon', 'salmon','salmon','salmon','salmon','salmon','salmon','salmon','salmon','salmon','salmon','salmon'])
         ax[i].set_ylabel(data2.columns[i], size=6)
         ax[i].xaxis.set_major_locator(mticker.FixedLocator(ax[i].get_xticks()))
         ax[i].set_xticklabels(glycans, rotation=90, size=6)

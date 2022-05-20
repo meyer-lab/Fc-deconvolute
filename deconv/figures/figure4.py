@@ -55,5 +55,7 @@ def makeFigure():
     for i in range(12):
         ax[i] = sns.scatterplot(ax = ax[i], data = df, x='Sialylation', y=l[i], hue='Fucosylation', 
             style = 'Bisection', markers=['d','X'])
+        _, _, _, y2 = ax[i].axis()
+        ax[i].set_ylim([0, y2])
 
     return(f)

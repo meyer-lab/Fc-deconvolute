@@ -10,7 +10,7 @@ def makeFigure():
     glycans = data_dekkers["glycans"]
     mixtures = data_dekkers["mixtures"]
 
-    ax[0] = sns.heatmap(antiD, linewidth=0.5, xticklabels=glycans, yticklabels=mixtures)
+    ax[0] = sns.heatmap(antiD, linewidth=0.5, xticklabels=glycans, yticklabels=mixtures, cmap = 'icefire')
     ax[0].collections[0].colorbar.set_label("Relative Abundance of Glycopeptides")
 
     # Add subplot labels
