@@ -1,7 +1,6 @@
 from .common import subplotLabel, getSetup
 from ..emceeDeconv import getEmceeTrace
 import numpy as np
-from ..imports import load_dekkers
 from sklearn.decomposition import PCA
 import matplotlib.lines as mlines
 import matplotlib.patches as mpatches
@@ -10,10 +9,6 @@ import matplotlib.patches as mpatches
 def makeFigure():
     #imports and formats
     trace = getEmceeTrace()
-    data_dekkers = load_dekkers()
-
-    data = data_dekkers["profiling"]
-    data2 = data.pivot(index="index", columns="receptor", values="binding")
 
     activity = trace.posterior.activity[0]
 

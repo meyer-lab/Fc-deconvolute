@@ -17,9 +17,8 @@ def makeFigure():
     ax, f = getSetup((14, 7), (2, 4))
 
     data_dekkers = load_dekkers()
-    data = data_dekkers["profiling"]
+    data2 = data_dekkers["profiling"]
 
-    data2 = data.pivot(index="index", columns="receptor", values="binding")
     pca2 = PCA()
     data_new = pca2.fit_transform(data2)
 

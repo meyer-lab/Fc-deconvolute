@@ -8,9 +8,7 @@ def getEmceeTrace():
     data_dekkers = load_dekkers()
 
     A_antiD = data_dekkers["antiD"]
-    df = data_dekkers["profiling"]
-
-    res = df.pivot(index="receptor", columns="index", values="binding").values
+    res = data_dekkers["profiling"].values
 
     M = pm.Model()
 

@@ -18,6 +18,7 @@ def load_dekkers(mean=True):
         profilingG = profiling.groupby(["index", "receptor"]).mean()
         profilingG["binding"] = profilingG.transform(lambda x: x / np.std(x))  # Dividing by std per experiement
         profiling = profilingG.reset_index()
+        profiling = profiling.pivot(index="receptor", columns="index", values="binding")
 
     results["profiling"] = profiling
     return results
