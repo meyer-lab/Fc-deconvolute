@@ -1,5 +1,4 @@
 import pandas as pd
-from sklearn.preprocessing import scale
 
 
 def load_dekkers(mean=True):
@@ -15,9 +14,16 @@ def load_dekkers(mean=True):
     profiling = pd.read_csv("./deconv/data/dekkers.csv")
 
     if mean:
+        profiling_std = profiling.groupby(["index", "receptor"]).sem().reset_index()
         profiling = profiling.groupby(["index", "receptor"]).mean().reset_index()
         profiling = profiling.pivot(index="index", columns="receptor", values="binding")
-        scale(profiling, with_mean=False, copy=False, axis=1)
+        profiling_std = profiling_std.pivot(index="index", columns="receptor", values="binding")
+
+        col_means = profiling.mean()
+        results["profiling_std"] = profiling_std / col_means
+        profiling = profiling / col_means
+
+    print(results["profiling_std"].mean())
 
     results["profiling"] = profiling
     return results
