@@ -11,7 +11,7 @@ def makeFigure():
     data_dekkers = load_dekkers()
     glycans = data_dekkers["glycans"]
 
-    data2 = data_dekkers["profiling"]
+    data2 = data_dekkers["profiling"].T
 
     trace = getEmceeTrace()
 
