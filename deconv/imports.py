@@ -1,7 +1,8 @@
+import numpy as np
 import pandas as pd
 
 
-def load_dekkers():
+def load_dekkers(mean=True):
     results = dict()
 
     # anti-D
@@ -12,5 +13,11 @@ def load_dekkers():
 
     # load profiling data
     profiling = pd.read_csv("./deconv/data/dekkers.csv")
+
+    if mean:
+        profilingG = profiling.groupby(["index", "receptor"]).mean()
+        profilingG["binding"] = profilingG.transform(lambda x: x / np.std(x))  # Dividing by std per experiement
+        profiling = profilingG.reset_index()
+
     results["profiling"] = profiling
     return results

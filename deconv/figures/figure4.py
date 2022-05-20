@@ -11,8 +11,7 @@ def makeFigure():
     data_dekkers = load_dekkers()
     glycans = data_dekkers["glycans"]
 
-    df = data_dekkers["profiling"]
-    data = df.groupby(["index", "receptor"]).mean().reset_index()
+    data = data_dekkers["profiling"]
     data2 = data.pivot(index="index", columns="receptor", values="binding")
 
     trace = getEmceeTrace()

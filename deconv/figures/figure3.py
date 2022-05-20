@@ -12,8 +12,7 @@ def makeFigure():
     trace = getEmceeTrace()
     data_dekkers = load_dekkers()
 
-    df = data_dekkers["profiling"]
-    data = df.groupby(["index", "receptor"]).mean().reset_index()
+    data = data_dekkers["profiling"]
     data2 = data.pivot(index="index", columns="receptor", values="binding")
 
     activity = trace.posterior.activity[0]
