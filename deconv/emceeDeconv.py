@@ -13,7 +13,7 @@ def getEmceeTrace():
 
     with M:
         activity = pm.TruncatedNormal("activity", mu=0.0, sigma=5.0, lower=0.0, shape=(24, 12))
-        predict = T.dot(A_antiD, activity).T
+        predict = T.dot(A_antiD, activity)
         pm.Normal("fit", mu=predict, sigma=0.2, observed=res)
 
     return pm.sample(model=M, return_inferencedata=True, target_accept=0.95)

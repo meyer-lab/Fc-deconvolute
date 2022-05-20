@@ -17,7 +17,7 @@ def makeFigure():
     ax, f = getSetup((14, 7), (2, 4))
 
     data_dekkers = load_dekkers()
-    data2 = data_dekkers["profiling"].T
+    data2 = data_dekkers["profiling"]
 
     pca2 = PCA()
     data_new = pca2.fit_transform(data2)

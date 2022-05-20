@@ -16,7 +16,7 @@ def load_dekkers(mean=True):
 
     if mean:
         profiling = profiling.groupby(["index", "receptor"]).mean().reset_index()
-        profiling = profiling.pivot(index="receptor", columns="index", values="binding")
+        profiling = profiling.pivot(index="index", columns="receptor", values="binding")
         scale(profiling, with_mean=False, copy=False, axis=1)
 
     results["profiling"] = profiling
