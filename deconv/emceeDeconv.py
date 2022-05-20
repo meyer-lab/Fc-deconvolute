@@ -1,24 +1,19 @@
-
 from .imports import load_dekkers
 import pymc as pm
-from aesara.tensor import dot
+import aesara.tensor as T
 
 
 def getEmceeTrace():
     data_dekkers = load_dekkers()
 
     A_antiD = data_dekkers["antiD"]
-
-    df = data_dekkers["profiling"]
-    data = df.groupby(["index", "receptor"]).mean().reset_index()
-    res = data.pivot(index="receptor", columns="index", values="binding").values
+    res = data_dekkers["profiling"].values
 
     M = pm.Model()
 
     with M:
-        activity = pm.Lognormal("activity", sigma=1.0, shape=(24, 12))
-        predict = dot(A_antiD, activity).T
-        pm.Lognormal("fit", mu=predict, sigma=0.2, observed=res)
+        activity = pm.TruncatedNormal("activity", mu=0.0, sigma=5.0, lower=0.0, shape=(24, 12))
+        predict = T.dot(A_antiD, activity)
+        pm.Normal("fit", mu=predict, sigma=0.2, observed=res)
 
-    trace = pm.sample(500, tune=5000, model=M, return_inferencedata=True, target_accept=0.95)
-    return trace
+    return pm.sample(model=M, return_inferencedata=True, target_accept=0.95)
