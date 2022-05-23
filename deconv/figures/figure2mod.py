@@ -13,9 +13,7 @@ def makeFigure():
 
     data2 = data_dekkers["profiling"]
 
-    trace = getEmceeTrace()
-
-    activity = trace.posterior.activity[0]
+    activity = getEmceeTrace()
 
     qqs = np.quantile(activity, (0.025, 0.5, 0.975), axis=0)
     median = qqs[1, :, :]

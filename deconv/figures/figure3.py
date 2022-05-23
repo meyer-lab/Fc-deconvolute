@@ -8,9 +8,7 @@ import matplotlib.patches as mpatches
 
 def makeFigure():
     #imports and formats
-    trace = getEmceeTrace()
-
-    activity = trace.posterior.activity[0]
+    activity = getEmceeTrace()
 
     activity_scores = []
     activity_loadings = []
@@ -65,55 +63,39 @@ def makeFigure():
 
     ax, f = getSetup((7, 7), (2, 2))
 
+    plotPCA(ax[0], median_scores, lowErrS, highErrS, ScoreMarkers, ScoreColor, 1)
     ax[0].set_title("Activity Scores")
-    ax[0].set_xlabel("Component 1")
-    ax[0].set_ylabel("Component 2")
-    ax[0].errorbar(median_scores[:, 0], median_scores[:, 1],
-         yerr=[lowErrS[:, 1], highErrS[:, 1]], xerr=[lowErrS[:, 0], 
-         highErrS[:, 0]],  fmt = ',', color ='k', lw = .25)
-    for i in range(24):
-        ax[0].scatter(median_scores[i, 0], median_scores[i, 1], marker = ScoreMarkers[i], color = ScoreColor[i], edgecolor='k')
 
     legend1 = ax[0].legend(handles= legend_elements1, bbox_to_anchor=(0., 1.25, 1., .25), loc='lower left',
                       ncol=1, borderaxespad=0., prop= {'size': 11}, handlelength = 2)
-
     ax[0].add_artist(legend1)
 
+    plotPCA(ax[1], median_loadings, lowErrL, highErrL, LoadingMarkers, LoadingColors, 1)
     ax[1].set_title("Activity Loadings")
-    ax[1].set_xlabel("Component 1")
-    ax[1].set_ylabel("Component 2")
-    ax[1].errorbar(median_loadings[:, 0], median_loadings[:, 1],
-        yerr=[lowErrL[:, 1], highErrL[:, 1]], xerr=[lowErrL[:, 0], 
-        highErrL[:, 0]], fmt=',', color = 'k', lw = .25)
 
     legend2 = ax[1].legend(handles= legend_elements2, bbox_to_anchor=(0., 1.25, .7, .25), loc='lower right',
                       ncol=1, borderaxespad=0., prop= {'size': 12}, handleheight = 2)
     ax[1].add_artist(legend2)
 
-    for i in range(12):
-        ax[1].scatter(median_loadings[i, 0], median_loadings[i, 1], marker = LoadingMarkers[i], color = LoadingColors[i], edgecolor='k')
-
     ax[2].set_title("Activity Scores")
-    ax[2].set_xlabel("Component 1")
-    ax[2].set_ylabel("Component 3")
-    ax[2].errorbar(median_scores[:, 0], median_scores[:, 2], 
-        yerr=[lowErrS[:, 2], highErrS[:, 2]], xerr=[lowErrS[:, 0], 
-        highErrS[:, 0]], fmt=',', color = 'k', lw = .25)
-
-    for i in range(24):
-        ax[2].scatter(median_scores[i, 0], median_scores[i, 2], marker = ScoreMarkers[i], color = ScoreColor[i], edgecolor='k')
+    plotPCA(ax[2], median_scores, lowErrS, highErrS, ScoreMarkers, ScoreColor, 2)
 
     ax[3].set_title("Activity Loadings")
-    ax[3].set_xlabel("Component 1")
-    ax[3].set_ylabel("Component 3")
-    ax[3].errorbar(median_loadings[:, 0], median_loadings[:, 2], 
-        yerr=[lowErrL[:, 2], highErrL[:, 2]], xerr=[lowErrL[:, 0], 
-        highErrL[:, 0]], fmt=',', color = 'k', lw = .25)
-
-    for i in range(12):
-        ax[3].scatter(median_loadings[i, 0], median_loadings[i, 2], marker = LoadingMarkers[i], color = LoadingColors[i], edgecolor='k')
+    plotPCA(ax[3], median_loadings, lowErrL, highErrL, LoadingMarkers, LoadingColors, 2)
 
     # Add subplot labels
     subplotLabel(ax)
 
     return f
+
+
+def plotPCA(ax, median, lowError, highError, ScoreMarkers, ScoreColor, compTwo: int):
+    """Plot the scores/loadings."""
+    ax.set_xlabel("Component 1")
+    ax.set_ylabel("Component " + str(compTwo + 1))
+    ax.errorbar(median[:, 0], median[:, compTwo],
+         yerr=[lowError[:, compTwo], highError[:, compTwo]], xerr=[lowError[:, 0], 
+         highError[:, 0]],  fmt = ',', color ='k', lw = .25)
+
+    for i in range(median.shape[0]):
+        ax.scatter(median[i, 0], median[i, compTwo], marker = ScoreMarkers[i], color = ScoreColor[i])
