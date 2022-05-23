@@ -1,6 +1,6 @@
 from .imports import load_dekkers
-import pymc as pm
-import aesara.tensor as T
+import pymc3 as pm
+import theano.tensor as T
 
 
 def getEmceeTrace():

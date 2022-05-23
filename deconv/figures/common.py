@@ -1,11 +1,17 @@
 """
 This file contains functions that are used in multiple figures.
 """
+import sys
+import logging
+import time
+import matplotlib
 import seaborn as sns
 from string import ascii_lowercase
-import matplotlib
 from matplotlib import gridspec, pyplot as plt
-import svgutils.transform as st
+
+matplotlib.use("AGG")
+
+fdir = "./output/"
 
 
 matplotlib.rcParams["legend.labelspacing"] = 0.2
@@ -56,16 +62,15 @@ def subplotLabel(axs):
         ax.text(-0.2, 1.2, ascii_lowercase[ii], transform=ax.transAxes, fontsize=16, fontweight="bold", va="top")
 
 
-def overlayCartoon(figFile, cartoonFile, x, y, scalee=1, scale_x=1, scale_y=1, rotate=None):
-    """ Add cartoon to a figure file. """
+def genFigure():
+    """ Main figure generation function. """
+    logging.basicConfig(format="%(levelname)s:%(message)s", level=logging.INFO)
+    nameOut = "figure" + sys.argv[1]
 
-    # Overlay Figure cartoons
-    template = st.fromfile(figFile)
-    cartoon = st.fromfile(cartoonFile).getroot()
+    start = time.time()
 
-    cartoon.moveto(x, y, scale_x=scalee * scale_x, scale_y=scalee * scale_y)
-    if rotate:
-        cartoon.rotate(rotate, x, y)
+    exec("from deconv.figures." + nameOut + " import makeFigure", globals())
+    ff = makeFigure()
+    ff.savefig(fdir + nameOut + ".svg", dpi=ff.dpi, bbox_inches="tight", pad_inches=0)
 
-    template.append(cartoon)
-    template.save(figFile)
+    logging.info("%s is done after %s seconds.", nameOut, time.time() - start)
