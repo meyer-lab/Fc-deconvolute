@@ -69,7 +69,7 @@ def genFigure():
 
     start = time.time()
 
-    exec("from deconv.figures." + nameOut + " import makeFigure")
+    exec("from deconv.figures." + nameOut + " import makeFigure", globals())
     ff = makeFigure()
     ff.savefig(fdir + nameOut + ".svg", dpi=ff.dpi, bbox_inches="tight", pad_inches=0)
 
