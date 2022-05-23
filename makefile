@@ -9,5 +9,8 @@ output/figure%.svg: deconv/figures/figure%.py
 test:
 	poetry run pytest -s -v -x
 
+coverage.xml:
+	poetry run pytest --cov=deconv --cov-report=xml --cov-config=.github/workflows/coveragerc
+
 clean:
-	rm -rf output
+	rm -rf output coverage.xml .coverage

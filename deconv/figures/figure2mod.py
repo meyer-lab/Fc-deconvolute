@@ -5,6 +5,7 @@ from ..emceeDeconv import getEmceeTrace
 from ..imports import load_dekkers
 import pandas as pd
 
+
 def makeFigure():
     ax, f = getSetup((7.5, 7.5), (4, 3))
 
@@ -13,9 +14,7 @@ def makeFigure():
 
     data2 = data_dekkers["profiling"]
 
-    trace = getEmceeTrace()
-
-    activity = trace.posterior.activity[0]
+    activity = getEmceeTrace()
 
     qqs = np.quantile(activity, (0.025, 0.5, 0.975), axis=0)
     median = qqs[1, :, :]
@@ -40,7 +39,7 @@ def makeFigure():
     p025_df = p025_df.reindex(g)
 
     for i in range(median.shape[1]):
-        ax[i].errorbar(g, median_df.iloc[:, i], yerr=[p025_df.iloc[:, i], p975_df.iloc[:, i]], fmt='o', markersize = 5)
+        ax[i].errorbar(g, median_df.iloc[:, i], yerr=[p025_df.iloc[:, i], p975_df.iloc[:, i]], fmt="o", markersize=5)
         ax[i].set_ylabel(median_df.columns[i], size=6)
         ax[i].xaxis.set_major_locator(mticker.FixedLocator(ax[i].get_xticks()))
         ax[i].set_xticklabels(g, rotation=90, size=6)
