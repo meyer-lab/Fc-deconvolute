@@ -5,6 +5,7 @@ import numpy as np
 from ..imports import load_dekkers
 import seaborn as sns
 
+
 def makeFigure():
     ax, f = getSetup((7.5, 15), (6, 2))
 
@@ -46,14 +47,13 @@ def makeFigure():
     df["glycans"] = glycans
 
     for i in range(12):
-        header = '{}'.format(l[i])
-        df[header] = median[:,i]
+        header = "{}".format(l[i])
+        df[header] = median[:, i]
 
-    sns.set_theme(style="whitegrid", palette= ['dodgerblue','salmon'])
+    sns.set_theme(style="whitegrid", palette=["dodgerblue", "salmon"])
     for i in range(12):
-        ax[i] = sns.scatterplot(ax = ax[i], data = df, x='Sialylation', y=l[i], hue='Fucosylation', 
-            style = 'Bisection', markers=['d','X'])
+        ax[i] = sns.scatterplot(ax=ax[i], data=df, x="Sialylation", y=l[i], hue="Fucosylation", style="Bisection", markers=["d", "X"])
         _, _, _, y2 = ax[i].axis()
         ax[i].set_ylim([0, y2])
 
-    return(f)
+    return f

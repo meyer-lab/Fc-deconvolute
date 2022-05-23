@@ -23,7 +23,6 @@ def load_dekkers(mean=True):
         results["profiling_std"] = profiling_std / col_means
         profiling = profiling / col_means
 
-    print(results["profiling_std"].mean())
-
+    results["profiling_std_mean"] = results["profiling_std"].mean()
     results["profiling"] = profiling
     return results
