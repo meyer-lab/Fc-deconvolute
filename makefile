@@ -2,19 +2,15 @@
 flist = $(wildcard deconv/figures/figure*.py)
 all: $(patsubst deconv/figures/figure%.py, output/figure%.svg, $(flist))
 
-venv: venv/bin/activate
-
-venv/bin/activate: requirements.txt
-	test -d venv || virtualenv venv
-	. venv/bin/activate && pip install --prefer-binary -Uqr requirements.txt
-	touch venv/bin/activate
-
-output/figure%.svg: venv genFigure.py deconv/figures/figure%.py
+output/figure%.svg: deconv/figures/figure%.py
 	@mkdir -p output
-	. venv/bin/activate && ./genFigure.py $*
+	poetry run fbuild $*
 
-test: venv
-	. venv/bin/activate && pytest -s -v -x
+test:
+	poetry run pytest -s -v -x
+
+coverage.xml:
+	poetry run pytest --cov=deconv --cov-report=xml --cov-config=.github/workflows/coveragerc
 
 clean:
-	rm -rf output venv
+	rm -rf output coverage.xml .coverage

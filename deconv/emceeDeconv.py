@@ -1,19 +1,32 @@
+import numpyro
+from numpyro.distributions import HalfNormal, Normal
+from jax.random import PRNGKey
+import jax.numpy as jnp
 from .imports import load_dekkers
-import pymc as pm
-import aesara.tensor as T
+
+
+def deconvModel(A_antiD, observed, error):
+    activity = numpyro.sample("activity", HalfNormal(jnp.broadcast_to(5.0, (24, 12))))
+    predict = jnp.dot(A_antiD, activity)
+
+    # Use the mean of the sem across experimental replicates for error term
+    sigm = jnp.broadcast_to(error, predict.shape)
+    numpyro.sample("fit", Normal(predict, sigm), obs=observed)
 
 
 def getEmceeTrace():
     data_dekkers = load_dekkers()
 
     A_antiD = data_dekkers["antiD"]
-    res = data_dekkers["profiling"].values
+    X = data_dekkers["profiling"].values
+    error = data_dekkers["profiling_std_mean"].values
 
-    M = pm.Model()
+    nuts_kernel = numpyro.infer.NUTS(deconvModel)
+    mcmc = numpyro.infer.MCMC(nuts_kernel, num_warmup=500, num_samples=1500, num_chains=4, chain_method="vectorized")
+    mcmc.run(PRNGKey(0), A_antiD, X, error)
 
-    with M:
-        activity = pm.TruncatedNormal("activity", mu=0.0, sigma=5.0, lower=0.0, shape=(24, 12))
-        predict = T.dot(A_antiD, activity)
-        pm.Normal("fit", mu=predict, sigma=0.1, observed=res)
-
-    return pm.sample(model=M, return_inferencedata=True, target_accept=0.95)
+    samples = mcmc.get_samples()
+    summary = numpyro.diagnostics.summary(mcmc.get_samples(group_by_chain=True))["activity"]
+    assert jnp.amax(summary["r_hat"]) < 1.01
+    assert jnp.amax(summary["n_eff"]) > 1000
+    return samples["activity"]

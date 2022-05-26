@@ -13,18 +13,18 @@ def makeFigure():
 
     data2 = data_dekkers["profiling"]
 
-    trace = getEmceeTrace()
-
-    activity = trace.posterior.activity[0]
+    activity = getEmceeTrace()
 
     qqs = np.quantile(activity, (0.025, 0.5, 0.975), axis=0)
     median = qqs[1, :, :]
     p33 = median - qqs[0, :, :]
     p66 = qqs[2, :, :] - median
 
+    colors = ["dodgerblue"] * 12 + ["salmon"] * 12
+
     for i in range(median.shape[1]):
-        ax[i].errorbar(glycans, median[:, i], yerr=[p33[:, i], p66[:, i]], fmt='none', ecolor = ['dodgerblue','dodgerblue','dodgerblue','dodgerblue','dodgerblue','dodgerblue','dodgerblue','dodgerblue','dodgerblue','dodgerblue','dodgerblue','dodgerblue', 'salmon', 'salmon','salmon','salmon','salmon','salmon','salmon','salmon','salmon','salmon','salmon','salmon'])
-        ax[i].scatter(glycans, median[:, i],marker ='o', color = ['dodgerblue','dodgerblue','dodgerblue','dodgerblue','dodgerblue','dodgerblue','dodgerblue','dodgerblue','dodgerblue','dodgerblue','dodgerblue','dodgerblue', 'salmon', 'salmon','salmon','salmon','salmon','salmon','salmon','salmon','salmon','salmon','salmon','salmon'])
+        ax[i].errorbar(glycans, median[:, i], yerr=[p33[:, i], p66[:, i]], fmt="none", ecolor=colors)
+        ax[i].scatter(glycans, median[:, i], marker="o", color=colors)
         ax[i].set_ylabel(data2.columns[i], size=6)
         ax[i].xaxis.set_major_locator(mticker.FixedLocator(ax[i].get_xticks()))
         ax[i].set_xticklabels(glycans, rotation=90, size=6)
