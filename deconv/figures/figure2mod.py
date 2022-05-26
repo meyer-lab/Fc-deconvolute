@@ -40,7 +40,8 @@ def makeFigure():
     p025_df = p025_df.reindex(g)
 
     for i in range(median.shape[1]):
-        ax[i].errorbar(g, median_df.iloc[:, i], yerr=[p025_df.iloc[:, i], p975_df.iloc[:, i]], fmt='o', markersize = 5)
+        ax[i].errorbar(g, median_df.iloc[:, i], yerr=[p025_df.iloc[:, i], p975_df.iloc[:, i]],fmt='none', ecolor = ['dodgerblue','dodgerblue','dodgerblue','dodgerblue','dodgerblue','dodgerblue','dodgerblue','dodgerblue','dodgerblue','dodgerblue','dodgerblue','dodgerblue', 'salmon', 'salmon','salmon','salmon','salmon','salmon','salmon','salmon','salmon','salmon','salmon','salmon'])
+        ax[i].scatter(g, median_df.iloc[:, i], marker ='o', color = ['dodgerblue','dodgerblue','dodgerblue','dodgerblue','dodgerblue','dodgerblue','dodgerblue','dodgerblue','dodgerblue','dodgerblue','dodgerblue','dodgerblue', 'salmon', 'salmon','salmon','salmon','salmon','salmon','salmon','salmon','salmon','salmon','salmon','salmon'])
         ax[i].set_ylabel(median_df.columns[i], size=6)
         ax[i].xaxis.set_major_locator(mticker.FixedLocator(ax[i].get_xticks()))
         ax[i].set_xticklabels(g, rotation=90, size=6)
