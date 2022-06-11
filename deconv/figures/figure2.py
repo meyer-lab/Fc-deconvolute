@@ -20,6 +20,10 @@ def makeFigure():
     p33 = median - qqs[0, :, :]
     p66 = qqs[2, :, :] - median
 
+    # Difference with fucosylation
+    fucDiff = activity[:, 12:, :] / activity[:, :12, :]
+    fucQ = np.quantile(fucDiff, (0.025, 0.5, 0.975), axis=0)
+
     colors = ["dodgerblue"] * 12 + ["salmon"] * 12
 
     for i in range(median.shape[1]):
@@ -28,8 +32,10 @@ def makeFigure():
         ax[i].set_ylabel(data2.columns[i], size=6)
         ax[i].xaxis.set_major_locator(mticker.FixedLocator(ax[i].get_xticks()))
         ax[i].set_xticklabels(glycans, rotation=90, size=6)
-        _, _, _, y2 = ax[i].axis()
-        ax[i].set_ylim([0, y2])
+        if i < 6:
+            ax[i].set_ylim([0, 8])
+        else:
+            ax[i].set_ylim([0, 4])
 
     subplotLabel(ax)
 

@@ -71,6 +71,7 @@ def genFigure():
 
     exec("from deconv.figures." + nameOut + " import makeFigure", globals())
     ff = makeFigure()
-    ff.savefig(fdir + nameOut + ".svg", dpi=ff.dpi, bbox_inches="tight", pad_inches=0)
+    if ff is not None:
+        ff.savefig(fdir + nameOut + ".svg", dpi=ff.dpi, bbox_inches="tight", pad_inches=0)
 
     logging.info("%s is done after %s seconds.", nameOut, time.time() - start)

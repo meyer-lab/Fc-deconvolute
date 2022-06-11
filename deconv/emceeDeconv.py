@@ -8,7 +8,6 @@ from .imports import load_dekkers
 
 
 config.update('jax_platforms', 'cpu')
-config.update("jax_enable_x64", True)
 
 
 def deconvModel(A_antiD, observed, error):
@@ -31,7 +30,8 @@ def getEmceeTrace():
     mcmc = numpyro.infer.MCMC(nuts_kernel, num_warmup=500, num_samples=1000, num_chains=3, chain_method="vectorized")
     mcmc.run(PRNGKey(0), A_antiD, X, error)
 
+    samples = mcmc.get_samples()
     data = az.from_numpyro(mcmc)
     assert jnp.amin(az.ess(data)["activity"].to_numpy()) > 100
     assert jnp.amax(az.rhat(data)["activity"].to_numpy()) < 1.01
-    return data
+    return samples["activity"]
