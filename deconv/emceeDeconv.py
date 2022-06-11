@@ -2,7 +2,13 @@ import numpyro
 from numpyro.distributions import HalfNormal, Normal
 from jax.random import PRNGKey
 import jax.numpy as jnp
+import arviz as az
+from jax.config import config
 from .imports import load_dekkers
+
+
+config.update('jax_platforms', 'cpu')
+config.update("jax_enable_x64", True)
 
 
 def deconvModel(A_antiD, observed, error):
@@ -22,11 +28,10 @@ def getEmceeTrace():
     error = data_dekkers["profiling_std_mean"].values
 
     nuts_kernel = numpyro.infer.NUTS(deconvModel)
-    mcmc = numpyro.infer.MCMC(nuts_kernel, num_warmup=500, num_samples=1500, num_chains=4, chain_method="vectorized")
+    mcmc = numpyro.infer.MCMC(nuts_kernel, num_warmup=500, num_samples=1000, num_chains=3, chain_method="vectorized")
     mcmc.run(PRNGKey(0), A_antiD, X, error)
 
-    samples = mcmc.get_samples()
-    summary = numpyro.diagnostics.summary(mcmc.get_samples(group_by_chain=True))["activity"]
-    assert jnp.amax(summary["r_hat"]) < 1.01
-    assert jnp.amax(summary["n_eff"]) > 1000
-    return samples["activity"]
+    data = az.from_numpyro(mcmc)
+    assert jnp.amin(az.ess(data)["activity"].to_numpy()) > 100
+    assert jnp.amax(az.rhat(data)["activity"].to_numpy()) < 1.01
+    return data
