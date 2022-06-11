@@ -19,7 +19,7 @@ def deconvModel(A_antiD, observed, error):
     numpyro.sample("fit", Normal(predict, sigm), obs=observed)
 
 
-def getEmceeTrace():
+def getEmceeTrace(return_az=False):
     data_dekkers = load_dekkers()
 
     A_antiD = data_dekkers["antiD"]
@@ -34,4 +34,8 @@ def getEmceeTrace():
     data = az.from_numpyro(mcmc)
     assert jnp.amin(az.ess(data)["activity"].to_numpy()) > 100
     assert jnp.amax(az.rhat(data)["activity"].to_numpy()) < 1.01
+
+    if return_az:
+        return data
+
     return samples["activity"]
