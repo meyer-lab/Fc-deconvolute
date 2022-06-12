@@ -13,7 +13,7 @@ def pca(X):
     # Get variance explained by singular values
     explained_variance_ratio_ = np.square(S)
     explained_variance_ratio_ /= np.sum(explained_variance_ratio_)
-    return U, Vt, explained_variance_ratio_
+    return U @ np.diag(S), Vt, explained_variance_ratio_
 
 
 def svd_flip(u, v):
