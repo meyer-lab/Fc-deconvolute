@@ -1,6 +1,6 @@
-from sklearn.decomposition import PCA
 from deconv.imports import load_dekkers
 from deconv.figures.common import subplotLabel, getSetup
+from deconv.pca import pca
 import pandas as pd
 import numpy as np
 
@@ -15,9 +15,7 @@ def makeFigure():
     data_dekkers = load_dekkers()
     data2 = data_dekkers["profiling"]
 
-    pca2 = PCA()
-    data_new = pca2.fit_transform(data2)
-    expVar = pca2.explained_variance_ratio_
+    data_new, components_, expVar = pca(data2)
 
     acc_variance = np.cumsum(expVar)[:6]
 
@@ -35,7 +33,7 @@ def makeFigure():
     for i in range(20):
         ax[2].annotate(mixtures[i], (data_new[i, 0], data_new[i, 1]))
 
-    loadings = pd.DataFrame(pca2.components_.T[:, :3], columns=["PC1", "PC2", "PC3"], index=data2.columns)
+    loadings = pd.DataFrame(components_.T[:, :3], columns=["PC1", "PC2", "PC3"], index=data2.columns)
 
     ax[3].set_title("Loadings")
     ax[3].set_xlabel("Component 1 ({ratio:.0%})".format(ratio=expVar[0]))

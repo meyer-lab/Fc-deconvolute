@@ -1,7 +1,7 @@
 from .common import subplotLabel, getSetup
 from ..emceeDeconv import getEmceeTrace
 import numpy as np
-from sklearn.decomposition import PCA
+from deconv.pca import pca
 import matplotlib.lines as mlines
 import matplotlib.patches as mpatches
 
@@ -13,11 +13,10 @@ def makeFigure():
     activity_scores = []
     activity_loadings = []
 
-    pca2 = PCA()
-
     for ii in range(activity.shape[0]):
-        activity_scores.append(pca2.fit_transform(np.squeeze(activity[ii, :, :])))
-        activity_loadings.append(pca2.components_)
+        U, components_, _ = pca(np.squeeze(activity[ii, :, :]))
+        activity_scores.append(U)
+        activity_loadings.append(components_)
 
     median_scores = np.median(activity_scores, axis=0)
     median_loadings = np.median(activity_loadings, axis=0).T
