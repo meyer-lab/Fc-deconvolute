@@ -15,6 +15,22 @@ def makeFigure():
     data_dekkers = load_dekkers()
     data2 = data_dekkers["profiling"]
 
+    mixture = data_dekkers["antiD"]
+    data_new, components_, expVar = pca(mixture)
+    print(expVar)
+
+    acc_variance = np.cumsum(expVar)
+    xx = np.arange(1, acc_variance.size + 1)
+    acc_variance = np.insert(acc_variance, 0, 0)
+    xx = np.insert(xx, 0, 0)
+
+    ax[0].plot(xx, acc_variance)
+    ax[0].plot(xx, xx / mixture.shape[0])
+    ax[0].set_ylabel("Explained Variance")
+    ax[0].set_xlabel("Number of Components")
+    ax[0].set_title("Mixture PCA")
+    ax[0].set_ylim([0, 1])
+
     data_new, components_, expVar = pca(data2)
 
     acc_variance = np.cumsum(expVar)[:6]
